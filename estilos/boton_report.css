@@ -1,0 +1,37 @@
+.button-blue {
+	text-decoration: none;
+	color: #fff;
+	font-size:18px;  
+	 
+	/*font: bold 1.5em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    background: #6594D1;
+	border: 1px solid #6594D1; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);    
+    box-shadow: 0 0 .05em rgba(0,0,0,0.4);  
+    background: -webkit-gradient(linear, left top, left bottom, from(#81a8cb), to(#6594D1) );
+    background: -moz-linear-gradient(-90deg, #81a8cb, #6594D1);
+    filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#81a8cb', endColorstr='#6594D1');
+}
+
+.button-blue:hover {
+    background: #81a8cb;
+    background: -webkit-gradient(linear, left top, left bottom, from(#6594D1), to(#81a8cb) );
+    background: -moz-linear-gradient(-90deg, #6594D1, #81a8cb);
+    filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#6594D1', endColorstr='#81a8cb');            
+}
+
+.button-blue:active {
+    background: #6594D1;
+}
+.button-blue1 {	text-decoration: none;
+	color: #fff;
+	font-size:18px;  
+	 
+	/*font: bold 1.5em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    background: #6594D1;
+	border: 1px solid #6594D1; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);    
+    box-shadow: 0 0 .05em rgba(0,0,0,0.4);  
+}

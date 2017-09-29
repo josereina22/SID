@@ -1,0 +1,52 @@
+#contenedor_princ {
+	position: absolute;
+	width: ;
+	height: 115px;
+	z-index: 6;
+}
+#contenedor_ppal {
+	position: absolute;
+	width: 100%;
+	height: auto;
+	min-width: 908px;
+	max-width: 2000px;
+	z-index: 1;
+	top: 0;
+	background-color: #F7F7F7;
+	left: 0;
+}
+#div_encabezado {
+	position: absolute;
+	width: 100%;
+	height: 200px;
+	z-index: 2;
+	background-color: #999999;
+	top: 0;
+	left: 0;
+}
+#div_menu {
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	z-index: 3;
+	left: 0px;
+	top: 200px;
+	background-color: #99CCFF;
+}
+#div_cuerpo {
+	position: absolute;
+	width: 100%;
+	height: 600;
+	z-index: 4;
+	left: 0px;
+	top: 240px;
+	background-color: #00CCFF;
+}
+#div_pie {
+	position: relative;
+	width: 100%;
+	height: auto;
+	background-color: #B9B9B9;
+	z-index: 5;
+	top: 900;
+}

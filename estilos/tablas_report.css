@@ -1,0 +1,34 @@
+
+#striped {	
+	border-collapse:collapse;
+	border-radius: 6px 6px 0 0;
+	
+}
+#striped tr th {
+	background-color: #285CA8; /*color fondo de la cabecera de la tabla*/
+	color:white;		/*Color del Texto*/
+}
+.stripes1 {
+	background-color:#E5E5E5;
+	
+}
+
+.stripes2 {
+	background-color:#EFEFEF;	
+}
+
+.stripes3 {
+background: #285CA8; /* Old browsers */
+background: -moz-linear-gradient(top,  #CCCCCC 0%, #BBBBBB 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#CCCCCC), color-stop(100%,#BBBBBB)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #CCCCCC 0%,#BBBBBB 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #CCCCCC 0%,#BBBBBB 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #CCCCCC 0%,#BBBBBB 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #CCCCCC 0%,#BBBBBB 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCCCC', endColorstr='#BBBBBB',GradientType=0 ); /* IE6-8 */
+
+color:black;
+}
+
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+
