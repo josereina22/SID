@@ -75,9 +75,9 @@ if(isset($_GET['id_deportista'])){
 
 
 include ('../configuration/conexion.php');
-$link=Conectarse(); 
-$result=mysql_query("SELECT * FROM t_deportista WHERE id_deportista = '$id_deportista'"); 
-$row=mysql_fetch_array($result);	
+$mysqli=Conectarse(); 
+$result=$mysqli->query("SELECT * FROM t_deportista WHERE id_deportista = '$id_deportista'"); 
+$row=$result->fetch_array();	
 $id_deportista= $row["id_deportista"];
 
 ?>
@@ -121,8 +121,8 @@ $id_deportista= $row["id_deportista"];
       <?php
 	  	$id_sexo=$row['id_sexo'];
 		$sSQL2="SELECT * FROM t_sexo WHERE id_sexo='$id_sexo'";
-        $result2=mysql_query($sSQL2);
-        $row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+        $row2=$result2->fetch_array();
         print $row2["sexo"]; 
 		
 	  ?>   
@@ -153,9 +153,8 @@ $id_deportista= $row["id_deportista"];
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_municipio WHERE id_municipio='$row[id_municipio]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["municipio"];
     ?>
     </td>
@@ -168,9 +167,8 @@ $id_deportista= $row["id_deportista"];
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_urbanizacion WHERE id_urbanizacion='$row[id_urbanizacion]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["urbanizacion"];
     ?>
     </td>
@@ -211,11 +209,9 @@ $id_deportista= $row["id_deportista"];
     <td>Ocupaci&oacute;n</td>
     <td>
     <?php
-		$link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_ocupacion WHERE id_ocupacion='$row[id_ocupacion]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["ocupacion"];
 	  ?>  
     </td>
@@ -230,9 +226,8 @@ $id_deportista= $row["id_deportista"];
     <td><?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_grado_instruccion WHERE id_grado_instruccion='$row[id_grado_instruccion]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["grado_instruccion"];
 	  ?></td>
     <td><div align="right">Empresa donde trabaja</div></td>
@@ -244,9 +239,8 @@ $id_deportista= $row["id_deportista"];
     <td colspan="3"><?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_institucion WHERE id_institucion='$row[id_institucion]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["institucion"];
 	  ?>
     </td>
@@ -257,9 +251,8 @@ $id_deportista= $row["id_deportista"];
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_grado WHERE id_grado='$row[id_grado]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["grado"];
 	  ?></td>
   </tr>
@@ -276,11 +269,9 @@ $id_deportista= $row["id_deportista"];
     <td>Nro. Cedula</td>
     <td>
     <?php 
-		$link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_representante WHERE cedula_representante='$row[cedula_representante]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["cedula_representante"];?></td>
   </tr>
   <tr>
@@ -300,9 +291,8 @@ $id_deportista= $row["id_deportista"];
     <td><?php
     	$link=Conectarse(); 
 	  	$sSQL3="SELECT * FROM t_ocupacion WHERE id_ocupacion='$row2[id_ocupacion]'";
-        $result3=mysql_query($sSQL3);
-		desconectarse();
-		$row3=mysql_fetch_array($result3);
+        $result3=$mysqli->query($sSQL3);
+		$row3=$result3->fetch_array();
         print $row3["ocupacion"];
 	  ?>
     </td>
@@ -311,11 +301,9 @@ $id_deportista= $row["id_deportista"];
     <td>Grado de Instrucci&oacute;n</td>
     <td><?php
 	
-		$link=Conectarse(); 
 	  	$sSQL3="SELECT * FROM t_grado_instruccion WHERE id_grado_instruccion='$row2[id_grado_instruccion]'";
-        $result3=mysql_query($sSQL3);
-		desconectarse();
-		$row3=mysql_fetch_array($result3);
+        $result3=$mysqli->query($sSQL3);
+		$row3=$result3->fetch_array();
         print $row3["grado_instruccion"];
 	  ?></td>
   </tr>
@@ -333,9 +321,8 @@ $id_deportista= $row["id_deportista"];
       <td colspan="3"><?php
 	    $link=Conectarse(); 
 	  	$sSQL2="SELECT * FROM t_grupo_sanguineo WHERE id_grupo_sanguineo='$row[id_grupo_sanguineo]'";
-        $result2=mysql_query($sSQL2);
-		desconectarse();
-		$row2=mysql_fetch_array($result2);
+        $result2=$mysqli->query($sSQL2);
+		$row2=$result2->fetch_array();
         print $row2["grupo_sanguineo"];
 	  ?>
       </td>
@@ -422,7 +409,6 @@ $id_deportista= $row["id_deportista"];
 </ul>
 <?php 
 //para saber cuantas clases tiene inscrita el deportista
-		$link=Conectarse(); 
 	  	$sSQL3="SELECT  id_inscrito, fecha_inscripcion, t_clase.cod_clase, instalacion_corta, cancha, disciplina, 
 						semanas, t_clase.hora_inicio, fecha_retiro, t_inscrito.estatus
 				FROM t_inscrito, t_clase, t_instalacion, t_cancha, t_disciplina, t_horario
@@ -436,9 +422,8 @@ $id_deportista= $row["id_deportista"];
 				ORDER BY t_inscrito.estatus
 				LIMIT 4
 				";
-        $result3=mysql_query($sSQL3);
-		desconectarse();
-if(mysql_num_rows($result3)>0){
+        $result3=$mysqli->query($sSQL3);
+if($result3->num_rows>0){
 ?>
         <table align="center" border="1" width="700" id="striped">
 					<tr>
@@ -453,7 +438,7 @@ if(mysql_num_rows($result3)>0){
                         <th>Estatus</th>
 					</tr>
 <?php		
-          while ($row3=mysql_fetch_array($result3))
+          while ($row3=$result3->fetch_array())
           { ?>
 			<tr>
 				<td><?php print $row3['fecha_inscripcion'];?></td>
@@ -468,11 +453,11 @@ if(mysql_num_rows($result3)>0){
                 	<form name="form_dp" action="../clases/inscripcion.php" method="POST" >
                     <select class="select-style" name="estatus_inscrito" id="estatus_inscrito" style="width:100" onChange="this.form.submit()" >
 						<?php
-							$link=Conectarse(); 
+				
 							$sSQL4="SELECT * FROM t_estatus_inscrito";
-        					$result4=mysql_query($sSQL4);
-							desconectarse();
-							while ($row4=mysql_fetch_array($result4))
+        					$result4=$mysqli->query($sSQL4);
+				
+							while ($row4=$result4->fetch_array())
 							{
 								?><option value=<?php print $row4['id_estatus_inscrito'];if($row4['id_estatus_inscrito']==$row3['estatus']){ ?> selected='selected' <?php } ?>><?php print $row4['estatus_inscrito'];?></option><?php }?>
 				    </select>
@@ -502,13 +487,12 @@ if(mysql_num_rows($result3)>0){
 				WHERE (edad_min <=$edad AND edad_max>=$edad) 
 				AND t_clase.id_disciplina= t_disciplina.id_disciplina 
 				GROUP BY t_clase.id_disciplina, t_clase.sexo";
-        $result3=mysql_query($sSQL3);
-		desconectarse();
+        $result3=$mysqli->query($sSQL3);
 	?>
         <select class="select-style" name="tipo_inscripcion" id="tipo_inscripcion" onChange="MostrarClases(this.value)">
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row3=mysql_fetch_array($result3))
+          while ($row3=$result3->fetch_array())
 		  {
 			  if ($row3["sexo"]==$id_sexo or $row3["sexo"]==3)
 			   	{
@@ -535,13 +519,12 @@ if(mysql_num_rows($result3)>0){
     <td><?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_tipo_inscripcion";
-        $result=mysql_query($sSQL);
-		desconectarse();
+        $result=$mysqli->query($sSQL);
 	?>
         <select class="select-style" name="tipo_inscripcion" id="tipo_inscripcion">
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row2=mysql_fetch_array($result))
+          while ($row2=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row2["id_tipo_inscripcion"]; if($row2["id_tipo_inscripcion"]==$row["id_tipo_inscripcion"]){?> selected="selected" <?php }?>><?php print $row2["tipo_inscripcion"];?></option>
            <?php } ?>

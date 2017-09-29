@@ -2,12 +2,13 @@
 //header('Content-Type: text/html; charset=ISO-8859-1'); 
 header('Content-Type: text/html; charset=UTF-8'); 
 include ('../configuration/conexion.php');
+$mysqli=Conectarse();
 if(isset($_GET['getcedula']) AND $_GET['getcedula']<>0){ 
-  Conectarse(); 
-  $res = mysql_query("SELECT * FROM t_deportista 
-  						WHERE cedula='$_GET[getcedula]'") or die(mysql_error());
+  
+  $res =$mysqli->query("SELECT * FROM t_deportista 
+  						WHERE cedula='$_GET[getcedula]'") or die($mysqli->error);
 
-  if($inf = mysql_fetch_array($res)){
+  if($inf = $res->fetch_array()){
 /***********************************************************************************/
 	echo "formObj.id_deportista.value = '".$inf["id_deportista"]."';\n";
     echo "formObj.nombres.value = '".$inf["nombres"]."';\n";    
@@ -40,8 +41,8 @@ if(isset($_GET['getcedula']) AND $_GET['getcedula']<>0){
     echo "formObj.grado.value = '".$inf["id_grado"]."';\n";  
 	echo "formObj.otra_ocupacion.value = '".$inf["otra_ocupacion"]."';\n";    
 /***********************************************************************************/    
-	$resul_repre = mysql_query("SELECT * FROM t_representante WHERE id_deportista='$inf[id_deportista]'") or die(mysql_error());
-	if($registro = mysql_fetch_array($resul_repre)){
+	$resul_repre = $mysqli->query("SELECT * FROM t_representante WHERE id_deportista='$inf[id_deportista]'") or die(mysql_error());
+	if($registro = $resul_repre->fetch_array()){
 		echo "formObj.cedula_repres.value = '".$registro["cedula_representante"]."';\n"; 
 		echo "formObj.nombre_repres.value = '".$registro["nombre_representante"]."';\n";  
 		echo "formObj.apellido_repres.value = '".$registro["apellido_representante"]."';\n";    

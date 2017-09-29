@@ -232,14 +232,13 @@ function valida_envia_iced(){
     <td>
     <?php
 	  	include ('../configuration/conexion.php');
-	    $link=Conectarse(); 
+      $mysqli=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_sexo";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='sexo' id='sexo' tabindex='4'>";
       echo "<option value='0' selected>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row = $result->fetch_array())
         {echo '<option value='.$row["id_sexo"].'>'.$row["sexo"].'</option>';} 
 		  echo '</select>';
 	  ?>*<br><br>
@@ -268,14 +267,12 @@ function valida_envia_iced(){
     <th width="98"><div align="right">Municipio</div></th>
     <td width="286">
     <?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_municipio";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='municipio' id='municipio' onChange='cargaContenido(this.id)' tabindex='7'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_municipio"].'>'.$row["municipio"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -287,14 +284,12 @@ function valida_envia_iced(){
     <th><div align="right">Urbanizaci&oacute;n</div></th>
     <td>
     <?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_urbanizacion";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='urbanizacion' id='urbanizacion' tabindex='9'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_urbanizacion"].'>'.$row["urbanizacion"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -340,14 +335,12 @@ function valida_envia_iced(){
     <th><div align="right">Ocupaci&oacute;n</div></th>
     <td>
     <?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_ocupacion";
-      $result=mysql_query($sSQL);
-	   	desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='ocupacion' id='ocupacion'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-        while ($row=mysql_fetch_array($result))
+        while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_ocupacion"].'>'.$row["ocupacion"].'</option>';} 
 		  echo '</select>';
 	  ?>  
@@ -358,14 +351,12 @@ function valida_envia_iced(){
   <tr>
     <th><div align="right">Grado de Instrucci&oacute;n</div></th>
     <td><?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado_instruccion";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='grado_instruccion' id='grado_instruccion'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_grado_instruccion"].'>'.$row["grado_instruccion"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -376,14 +367,12 @@ function valida_envia_iced(){
   <tr>
     <th><div align="right"><span id="sub1">Instituci&oacute;n donde estudia</span></div></th>
     <td><?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_institucion";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='institucion' id='institucion'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_institucion"].'>'.$row["institucion"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -395,14 +384,12 @@ function valida_envia_iced(){
     <th><div align="right">Grado o A&ntilde;o que Cursa</div></th>
     <td colspan="3">
     <?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='grado' id='grado'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_grado"].'>'.$row["grado"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -435,14 +422,12 @@ function valida_envia_iced(){
   <tr>
     <th><div align="right">Ocupaci&oacute;n</div></th>
     <td><?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_ocupacion";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='ocupacion_repres' id='ocupacion_repres'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_ocupacion"].'>'.$row["ocupacion"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -451,14 +436,12 @@ function valida_envia_iced(){
   <tr>
     <th><div align="right">Grado de Instrucci&oacute;n</div></th>
     <td><?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado_instruccion";
-      $result=mysql_query($sSQL);
-		  desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='grado_instruccion_repres' id='grado_instruccion_repres'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_grado_instruccion"].'>'.$row["grado_instruccion"].'</option>';} 
 		  echo '</select>';
 	  ?>
@@ -476,14 +459,12 @@ function valida_envia_iced(){
   <tr>
     <th><div align="right">Grupo Sanguineo</div></th>
     <td colspan="3"><?php
-	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grupo_sanguineo";
-      $result=mysql_query($sSQL);
-  		desconectarse();
+      $result=$mysqli->query($sSQL);
       echo "<select class='select-style gender' name='grupo_sanguineo' id='grupo_sanguineo'>";
       echo "<option value='0'>Seleccione</option>";
       //Generamos el menu desplegable
-      while ($row=mysql_fetch_array($result))
+      while ($row=$result->fetch_array())
         {echo '<option value='.$row["id_grupo_sanguineo"].'>'.$row["grupo_sanguineo"].'</option>';} 
 		  echo '</select>';
 	  ?>

@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <?php
 include ("../configuration/conexion.php");
+$mysqli=Conectarse(); 
 header('Content-Type: text/html; charset=UTF-8'); 
 $seleccion=$_REQUEST["seleccion"];
 
@@ -8,22 +9,17 @@ switch($seleccion)
 {
 case 1:
 //para la foto	
-
-Conectarse();
-	
-	
-	
 	if (!empty($_POST['id_deportista'])){
 		$id_deportista=$_POST['id_deportista'];
-		$sql=("SELECT * FROM t_deportista WHERE id_deportista='$id_deportista'");
-		$result=mysql_query($sql);
-		$row=mysql_fetch_array($result);
-		$codigo=$row['id_deportista'];
+		$sql = ("SELECT * FROM t_deportista WHERE id_deportista='$id_deportista'");
+		$result = $mysqli->query($sql);
+		$row = $result->fetch_array();
+		$codigo = $row['id_deportista'];
 	}else{
-		$sql="SELECT MAX(id_deportista) AS id FROM t_deportista";
-		$res= mysql_query($sql);
-		$row = mysql_fetch_row($res);
-		$codigo = trim($row[0]+1);
+		$sql = "SELECT MAX(id_deportista) as 'cantidad' AS id FROM t_deportista";
+		$res = $mysqli->query($sql);
+		$row = $res->fetch_array();
+		$codigo = trim($row['cantidad']+1);
 	}
 	
 if ($_FILES["foto"]["error"] > 0){
@@ -143,14 +139,13 @@ else {
 	$ocupacion_emerg= $_POST['ocupacion_emerg'];
 	$tlf_emerg= $_POST['tlf_emerg'];
 	$trabajo_emerg= $_POST['trabajo_emerg']; 
-	Conectarse ();
 	if (!empty($_POST['id_deportista'])){
 		$id_deportista=$_POST['id_deportista'];
 		//$foto=$id_deportista.".jpg";
 		$sql=("SELECT * FROM t_deportista WHERE id_deportista='$id_deportista'");
-		$result=mysql_query($sql);
-		$row=mysql_fetch_array($result);
-		$cantidad_id_deportista=mysql_num_rows($result);
+		$result=$mysqli->query($sql);
+		$row = $result->fetch_array();
+		$cantidad_id_deportista = $results->num_rows;
 	}else{
 		$cantidad_id_deportista=0;
 		print "NO CEDULA";
@@ -160,21 +155,21 @@ else {
 	print "Cantidad".$cantidad_id_deportista;
 
 	if(!$cantidad_id_deportista==0){
-		mysql_query("UPDATE t_deportista SET  nombres='$_POST[nombres]', apellidos='$_POST[apellidos]', id_sexo='$_POST[sexo]', fecha_nac='$_POST[fecha_nac]', foto='$foto', id_ocupacion='$_POST[ocupacion]', otra_ocupacion='$_POST[otra_ocupacion]', id_grado_instruccion='$_POST[grado_instruccion]', emp_trabaja='$_POST[emp_trabaja]', id_institucion='$_POST[institucion]', otra_institucion='$_POST[otra_institucion]', id_grado='$_POST[grado]', cedula_representante='$_POST[cedula_repres]', id_municipio='$_POST[municipio]', otro_municipio='$_POST[otro_municipio]', id_urbanizacion='$_POST[urbanizacion]', otra_urbanizacion='$_POST[otra_urbanizacion]', av_calle='$_POST[calle]', edf_res_casa= '$_POST[casa_res]', nro_cas_res='$_POST[nro_cas_res]', tlf_casa='$_POST[tlf_casa]', tlf_trabajo='$_POST[tlf_trabajo]', celular1='$_POST[celular1]', celular2='$_POST[celular2]', correo1='$_POST[correo1]', correo2='$_POST[correo2]', id_grupo_sanguineo='$_POST[grupo_sanguineo]', tratamiento_medico='$_POST[tratamiento_medico]', tratamiento1='$_POST[tratamiento1]', tratamiento2='$_POST[tratamiento2]', tratamiento3='$_POST[tratamiento3]', pad_fisico='$_POST[padecimiento_fisico]', padecimiento1='$_POST[padecimiento1]', padecimiento2='$_POST[padecimiento2]', padecimiento3='$_POST[padecimiento3]', alergico='$_POST[alergico]', alergico1='$_POST[alergico1]', alergico2='$_POST[alergico2]', alergico3='$_POST[alergico3]', hcm='$_POST[hcm]', cual_hcm='$_POST[cual_hcm]', ss='$_POST[ss]', vence_cm='$_POST[vence_cm]', obs_medicos='$_POST[obs_medicos]', nombre_emerg='$_POST[nombre_emerg]', apellido_emerg='$_POST[apellido_emerg]', parentesco_emerg='$_POST[parentesco_emerg]', ocupacion_emerg='$_POST[ocupacion_emerg]', tlf_emerg='$_POST[tlf_emerg]', trabajo_emerg='$_POST[trabajo_emerg]' WHERE id_deportista= '$id_deportista' ") or die("error en Actualizar:".mysql_error());
+		$mysqli->query("UPDATE t_deportista SET  nombres='$_POST[nombres]', apellidos='$_POST[apellidos]', id_sexo='$_POST[sexo]', fecha_nac='$_POST[fecha_nac]', foto='$foto', id_ocupacion='$_POST[ocupacion]', otra_ocupacion='$_POST[otra_ocupacion]', id_grado_instruccion='$_POST[grado_instruccion]', emp_trabaja='$_POST[emp_trabaja]', id_institucion='$_POST[institucion]', otra_institucion='$_POST[otra_institucion]', id_grado='$_POST[grado]', cedula_representante='$_POST[cedula_repres]', id_municipio='$_POST[municipio]', otro_municipio='$_POST[otro_municipio]', id_urbanizacion='$_POST[urbanizacion]', otra_urbanizacion='$_POST[otra_urbanizacion]', av_calle='$_POST[calle]', edf_res_casa= '$_POST[casa_res]', nro_cas_res='$_POST[nro_cas_res]', tlf_casa='$_POST[tlf_casa]', tlf_trabajo='$_POST[tlf_trabajo]', celular1='$_POST[celular1]', celular2='$_POST[celular2]', correo1='$_POST[correo1]', correo2='$_POST[correo2]', id_grupo_sanguineo='$_POST[grupo_sanguineo]', tratamiento_medico='$_POST[tratamiento_medico]', tratamiento1='$_POST[tratamiento1]', tratamiento2='$_POST[tratamiento2]', tratamiento3='$_POST[tratamiento3]', pad_fisico='$_POST[padecimiento_fisico]', padecimiento1='$_POST[padecimiento1]', padecimiento2='$_POST[padecimiento2]', padecimiento3='$_POST[padecimiento3]', alergico='$_POST[alergico]', alergico1='$_POST[alergico1]', alergico2='$_POST[alergico2]', alergico3='$_POST[alergico3]', hcm='$_POST[hcm]', cual_hcm='$_POST[cual_hcm]', ss='$_POST[ss]', vence_cm='$_POST[vence_cm]', obs_medicos='$_POST[obs_medicos]', nombre_emerg='$_POST[nombre_emerg]', apellido_emerg='$_POST[apellido_emerg]', parentesco_emerg='$_POST[parentesco_emerg]', ocupacion_emerg='$_POST[ocupacion_emerg]', tlf_emerg='$_POST[tlf_emerg]', trabajo_emerg='$_POST[trabajo_emerg]' WHERE id_deportista= '$id_deportista' ") or die("error en Actualizar:".$mysqli->error);
 		$id_deportista= $row["id_deportista"];
 		$_SESSION['id_deportista']=$id_deportista;
 		}
 	else{
-//	     $result=mysql_query("SELECT * FROM t_solicitante WHERE cedula='$cedula'"); 
+//	     $result=$mysqli->query("SELECT * FROM t_solicitante WHERE cedula='$cedula'"); 
 //		 if ((@mysql_num_rows ($result) == 0))
-		 	mysql_query ("INSERT INTO t_deportista Values('','$cedula','$nombres', '$apellidos', '$sexo', '$fecha_nac', '$foto',
+		 	$mysqli->query("INSERT INTO t_deportista Values('','$cedula','$nombres', '$apellidos', '$sexo', '$fecha_nac', '$foto',
 					'$ocupacion', '$otra_ocupacion', '$grado_instruccion', '$emp_trabaja', '$institucion', '$otra_institucion', '$grado', '$cedula_repres',
 						'$municipio', '$otro_municipio', '$urbanizacion', '$otra_urbanizacion', '$calle', '$casa_res', '$nro_cas_res', '$tlf_casa',
-						'$tlf_trabajo', '$celular1', '$celular2', '$correo1', '$correo2', '$grupo_sanguineo', '$tratamiento_medico', '$tratamiento1', '$tratamiento2', '$tratamiento3', '$padecimiento_fisico', '$padecimiento1', '$padecimiento2', '$padecimiento3', '$alergico', '$alergico1', '$alergico2', '$alergico3', '$hcm', '$cual_hcm', '$ss', '$vence_cm','$obs_medicos', '$nombre_emerg', '$apellido_emerg', '$parentesco_emerg', '$ocupacion_emerg', '$tlf_emerg', '$trabajo_emerg','','','','')") or die("error en Incluir: ".mysql_error());
-		//mysql_query("INSERT INTO t_deportista Values('','$cedula','$nombres', '$apellidos', '$sexo', '$fecha_nac', '$foto')") or die("error en Incluir: ".mysql_error());				
+						'$tlf_trabajo', '$celular1', '$celular2', '$correo1', '$correo2', '$grupo_sanguineo', '$tratamiento_medico', '$tratamiento1', '$tratamiento2', '$tratamiento3', '$padecimiento_fisico', '$padecimiento1', '$padecimiento2', '$padecimiento3', '$alergico', '$alergico1', '$alergico2', '$alergico3', '$hcm', '$cual_hcm', '$ss', '$vence_cm','$obs_medicos', '$nombre_emerg', '$apellido_emerg', '$parentesco_emerg', '$ocupacion_emerg', '$tlf_emerg', '$trabajo_emerg','','','','')") or die("error en Incluir: ".$mysqli->error);
+		//$mysqli->query("INSERT INTO t_deportista Values('','$cedula','$nombres', '$apellidos', '$sexo', '$fecha_nac', '$foto')") or die("error en Incluir: ".$mysqli->error);				
 			
-			$result=mysql_query("SELECT id_deportista FROM t_deportista ORDER BY id_deportista DESC LIMIT 1"); 
-			$row=mysql_fetch_array($result);
+			$result=$mysqli->query("SELECT id_deportista FROM t_deportista ORDER BY id_deportista DESC LIMIT 1"); 
+			$row=$result->fetch_array();
 			$id_deportista= $row["id_deportista"];
 			$_SESSION['id_deportista']=$id_deportista;
 			
@@ -185,28 +180,28 @@ print "Hola".$cedula_repres."Hola";
 echo "<br>";
 			if ( (!empty($_POST['nombre_repres'])) OR (!empty($_POST['apellido_repres'])) ) 
 				{
-					$sqlr=mysql_query("SELECT * FROM t_representante WHERE id_deportista=$id_deportista");
-					if($rowr=mysql_fetch_array($sqlr)){
+					$sqlr=$mysqli->query("SELECT * FROM t_representante WHERE id_deportista=$id_deportista");
+					if($rowr=$sqlr->fetch_array()){
 						
-						mysql_query("UPDATE t_representante SET cedula_representante='$cedula_repres', nombre_representante='$nombre_repres',
+						$mysqli->query("UPDATE t_representante SET cedula_representante='$cedula_repres', nombre_representante='$nombre_repres',
 									 apellido_representante='$apellido_repres', parentesco='$parentesco', id_ocupacion='$ocupacion_repres', 
 									 id_grado_instruccion='$grado_instruccion_repres', empresa_trabaja='$empresa_repres' 
 									 WHERE id_deportista=$id_deportista") 
-									 or die("error en Actualizar: ".mysql_error());
+									 or die("error en Actualizar: ".$mysqli->error);
 						print "SI";		 
 					}
 					else{
 						
-						mysql_query("INSERT INTO t_representante Values('','$id_deportista','$cedula_repres','$nombre_repres',
+						$mysqli->query("INSERT INTO t_representante Values('','$id_deportista','$cedula_repres','$nombre_repres',
 									 '$apellido_repres', '$parentesco',	'$ocupacion_repres', '$grado_instruccion_repres', 
-									 '$empresa_repres')") or die("error en Incluir: ".mysql_error());
+									 '$empresa_repres')") or die("error en Incluir: ".$mysqli->error);
 						print "NO";
 
 					}
 					
 			}//
 			else{
-					mysql_query("DELETE FROM t_representante WHERE id_deportista=$id_deportista");
+					$mysqli->query("DELETE FROM t_representante WHERE id_deportista=$id_deportista");
 					print "Elimino represent";
 				}
 				
@@ -215,12 +210,11 @@ echo "<br>";
 		break;	
 	case 2:
 	//Actualizacion de Registros Tipo de Inscripcion, fecha carta de residencia y observaciones del deportista ya Inscrito
-		Conectarse ();
 	$id_deportista=$_SESSION['id_deportista'];
 	$tipo_inscripcion= $_POST['tipo_inscripcion'];
 	$fecha_const_tipo= $_POST['fecha_const_tipo'];
 	$observasiones_inscripcion = $_POST['observasiones_inscripcion'];
-		mysql_query("UPDATE t_deportista SET id_tipo_inscripcion='$tipo_inscripcion', fecha_const_tipo='$fecha_const_tipo', obs_inscripcion=  '$observasiones_inscripcion' WHERE id_deportista= '$id_deportista'") or die("error en Actualizar: ".mysql_error());
+		$mysqli->query("UPDATE t_deportista SET id_tipo_inscripcion='$tipo_inscripcion', fecha_const_tipo='$fecha_const_tipo', obs_inscripcion=  '$observasiones_inscripcion' WHERE id_deportista= '$id_deportista'") or die("error en Actualizar: ".$mysqli->error);
 		header('Location: ../reportes/pdf_deportista.php?id_deportista='.$id_deportista);
 		break;
 	case 3:
