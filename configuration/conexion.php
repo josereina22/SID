@@ -1,20 +1,15 @@
 <?php 
 function Conectarse() 
 { 
-   if (!($link=mysql_connect("localhost","biometrico","biometricochacao"))) 
+   if (!($mysqli = new mysqli("localhost","root","", "bd_sid")))
    { 
       echo "Error conectando a la base de datos."; 
       exit(); 
-   } 
-   if (!mysql_select_db("bd_sid",$link)) 
-   { 
-      echo "Error seleccionando la base de datos."; 
-      exit(); 
-   } 
-   return $link; 
+   }  
+   return $mysqli; 
 }    
 function desconectarse()
 {
-	mysql_close();
+	//mysql_close();
 }
 ?>

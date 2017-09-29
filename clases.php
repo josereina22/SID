@@ -1,6 +1,6 @@
 <?php session_start(); 
 include ('configuration/conexion.php');
-Conectarse(); 
+$mysqli=Conectarse();
 if (isset($_REQUEST["seleccion"]))
 {
 	$seleccion=$_REQUEST["seleccion"];}
@@ -42,8 +42,9 @@ if($seleccion==0) //Seleccion por Defecto
             <option value="" selected="selected">Seleccione</option>
             <?php
   			       $consulta = "SELECT * FROM t_entrenador WHERE id_tipo_usuario=2 OR id_tipo_usuario=3";
-               $resultado = mysql_query($consulta);
-               while ($fila = mysql_fetch_assoc($resultado)) {
+               $resultado = $mysqli->query($consulta);
+
+               while ($fila = $resultado->fetch_array()) {
            ?>
             <option value= <?php print $fila['id_entrenador']?> ><?php print $fila['nombres']." ".$fila['apellidos']?></option>	
             <?php } //cierro el While?>
@@ -56,11 +57,11 @@ if($seleccion==0) //Seleccion por Defecto
       <?php 
 	      //Creamos la sentencia SQL y la ejecutamos
           $sSQL="Select * From t_instalacion";
-          $result=mysql_query($sSQL);
+          $result = $mysqli->query($sSQL);
 		  // Voy imprimiendo el primer select compuesto por los direccions
 		  print "<select class='select-style' name='id_instalacion' id='id_instalacion' onChange='cargaContenido(this.id)'>";
 		  print "<option value='0'>Seleccione</option>";
-		  while($registro=mysql_fetch_row($result))
+		  while($registro= $result->fetch_array())
 		  {
 			  print "<option value='$registro[0]'>$registro[1]</option>";			  
 		  }
@@ -84,8 +85,8 @@ if($seleccion==0) //Seleccion por Defecto
         <option value="" selected="selected">Seleccione</option>
         <?php
 			 $consulta = "SELECT * FROM t_disciplina";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
         <option value=<?php print $fila['id_disciplina']?>> <?php print $fila['disciplina']?></option>
         <?php } //cierro el While?>
@@ -103,8 +104,8 @@ if($seleccion==0) //Seleccion por Defecto
         <option value="" selected="selected">Seleccione</option>
         <?php
 			 $consulta = "SELECT * FROM t_sexo";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
         <option value=<?php print $fila['id_sexo']?>> <?php print $fila['sexo']?></option>
         <?php } //cierro el While?>
@@ -131,17 +132,17 @@ if($seleccion==0) //Seleccion por Defecto
 }
 //Hora Para Armar el Horarios almacedanas en la Base de Datos
 $consul_hora = "SELECT * FROM t_hora";
-$result_hora = mysql_query($consul_hora);
+$result_hora =  $mysqli->query($consul_hora);
 $y=0;
-while ($fila_hora = mysql_fetch_assoc($result_hora)) {
+while ($fila_hora = $result_hora->fetch_array()) {
 	$horas[$y]=$fila_hora['hora'];
 	$y++;
  }
 //Los dias de la semana que van en el horario 
 $consul_sem = "SELECT * FROM t_semana";
-$result_sem = mysql_query($consul_sem);
+$result_sem =  $mysqli->query($consul_sem);
 $y=0;
-while ($fila_sem= mysql_fetch_assoc($result_sem)) {
+while ($fila_sem= $result_sem->fetch_array()) {
 	$sem[$y]=$fila_sem['abv_semana'];
 	$nombre_sem[$y]=$fila_sem['semana'];
 	$y++;
@@ -182,8 +183,8 @@ if($seleccion==1)
       AND t_instalacion.id_instalacion=$id_instalacion
       AND t_disciplina.id_disciplina=$id_disciplina_selec"; 
 
-    $resultado = mysql_query($consulta);
-    $fila = mysql_fetch_assoc($resultado);
+    $resultado = $mysqli->query($consulta);
+    $fila = $resultado->fetch_array();
     $tt_nombres=$fila['nombres'];
     $tt_apellidos=$fila['apellidos'];
     $tt_disciplina=$fila['disciplina'];
@@ -323,8 +324,9 @@ $consulta =    "SELECT t_entrenador.id_entrenador, nombres, apellidos, id_cancha
         AND t_clase.id_entrenador = t_entrenador.id_entrenador
         AND t_clase.id_disciplina=t_disciplina.id_disciplina
         ";  
-$resultado = mysql_query($consulta);
- while ($fila = mysql_fetch_assoc($resultado)) {
+
+$resultado = $mysqli->query($consulta);
+ while ($fila =  $resultado->fetch_array()) {
   $canch=$fila['id_cancha'];
   if ($canch==$id_cancha ) //pregunto si el id_cancha seleccionado en mi primera opcion es parecido al id_cancha obtenido del Query
   {
@@ -365,11 +367,12 @@ foreach ($horas as $hora) { ?>
       $r = explode(',', $dep);
       if ($dia == $r[1] && $hora == $r[2]) 
         {
-          $cantida_clase=mysql_query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
+          
+          $cantida_clase = $mysqli->query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
           WHERE t_horario.cod_clase = t_clase.cod_clase
           AND t_horario.cod_clase =  '$r[3]'
           AND t_horario.dia = '$dia'");
-          $total_x_codigo=mysql_fetch_array($cantida_clase);
+          $total_x_codigo = $cantida_clase->fetch_array();
           $ttxcodigo=$total_x_codigo['total'];
           $hora_dl_count=$total_x_codigo['hora_inicio'];
           if ($hora_dl_count==$hora){  //condicion para entrar solo una vez a abrir la tabla y hacer el rowspan
@@ -469,8 +472,8 @@ for($y=0;$y<7;$y++){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 $codigo=$_SESSION["codigo"]; //parte de la creacion del codigo
 ///////////////SELECT segun la combinacion de la semana//////////////////////////////////////////////////
-	$resultado = mysql_query("SELECT * FROM t_cod_semana WHERE semanas='$cod_semana'");
-	$fila = mysql_fetch_assoc($resultado);
+	$resultado = $mysqli->query("SELECT * FROM t_cod_semana WHERE semanas='$cod_semana'");
+	$fila = $resultado->fetch_array();
 	$sem_codigo=$fila['sem_codigo'];
 	$codigo="$codigo-$sem_codigo-$hora_minuto"; //concateno el codigo con el resultado de selec mas hora_minuto
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -527,16 +530,18 @@ for ($z=0;$z<=7;$z++)
 
 //id_cancha='$id_cancha'AND
 	//$consulta= mysql_query(
-	$consulta= mysql_query("SELECT * FROM t_clase WHERE  (id_cancha='$id_cancha' OR id_entrenador='$id_entrenador') AND(hora_inicio<='$hora_inicio' AND hora_fin>$hora_inicio) AND ($semanas)");
-	 $resultado=mysql_num_rows($consulta);
+
+	$consulta= $mysqli->query("SELECT * FROM t_clase WHERE  (id_cancha='$id_cancha' OR id_entrenador='$id_entrenador') AND(hora_inicio<='$hora_inicio' AND hora_fin>$hora_inicio) AND ($semanas)");
+	 $resultado=$consulta->num_rows;
 	//print "<BR>";
 
 	if ($resultado=="0")
   { //Valido si existe la cancha, hora de inicio este en el rango inicio y fin de la BD, y que algun dia de la semana este almacenada
 		/////////////////////////////////////////////INSERTO//////////////////////////////////////////////////////
-	mysql_query ("INSERT INTO t_clase (id_clase, cod_clase, id_entrenador, id_instalacion, id_cancha, id_disciplina, capacidad, inscrito, disponible, sexo, edad_min, edad_max, semanas, hora_inicio, hora_fin) VALUES('','$codigo',$id_entrenador, $id_instalacion, $id_cancha, $id_disciplina_selec, $capacidad, 0, $capacidad, $sexo, $edad_min, $edad_max, '$cod_semana',$hora_inicio, $hora_fin)");
 	
-	if(!mysql_error())
+  $mysqli->query ("INSERT INTO t_clase (id_clase, cod_clase, id_entrenador, id_instalacion, id_cancha, id_disciplina, capacidad, inscrito, disponible, sexo, edad_min, edad_max, semanas, hora_inicio, hora_fin) VALUES('','$codigo',$id_entrenador, $id_instalacion, $id_cancha, $id_disciplina_selec, $capacidad, 0, $capacidad, $sexo, $edad_min, $edad_max, '$cod_semana',$hora_inicio, $hora_fin)");
+	
+	if(!$mysqli->error)
 	{
 		$cuento=""; //para contar las veces que hago el while
 		/////////////////////////////////////////////////
@@ -546,10 +551,10 @@ for ($z=0;$z<=7;$z++)
 			$hora_min_cont_hasta=$hora_hasta.$min_hasta."00";
 			for($yy=0;$yy<7;$yy++){
 				if (isset($_REQUEST[$sem[$yy]])){
-					$resul_con = mysql_query("SELECT * FROM t_horario WHERE (cod_clase='$codigo' AND dia='$sem[$yy]') AND hora_inicio='$hora_min_cont'");
-					$ttregistro = mysql_num_rows($resul_con);
+					$resul_con = $mysqli->query("SELECT * FROM t_horario WHERE (cod_clase='$codigo' AND dia='$sem[$yy]') AND hora_inicio='$hora_min_cont'");
+					$ttregistro = $resul_con->num_rows;
 					if ($ttregistro=="0"){
-						mysql_query ("INSERT INTO t_horario(cod_clase, dia, hora_inicio, hora_fin) VALUES ('$codigo','$sem[$yy]', '$hora_min_cont', '$hora_min_cont_hasta')");
+						$mysqli->query ("INSERT INTO t_horario(cod_clase, dia, hora_inicio, hora_fin) VALUES ('$codigo','$sem[$yy]', '$hora_min_cont', '$hora_min_cont_hasta')");
 					}
 				}
 			}//cierro el for
@@ -565,7 +570,7 @@ for ($z=0;$z<=7;$z++)
 	{
 		print "NO";
 		header("location: clases.php?mensaje=2"); //mensaje 2 no insertado
-		break;
+		//break;
 	}
 	/////////////////////////////FIN DE INSERTO////////////////////////////////////////////// 
 	}//fin if resultado ==0
@@ -617,8 +622,8 @@ if (!empty ($_GET["mensaje"]))
             AND t_clase.id_entrenador = t_entrenador.id_entrenador
             AND t_clase.id_disciplina=t_disciplina.id_disciplina
             ";  
-    $resultado = mysql_query($consulta);
-     while ($fila = mysql_fetch_assoc($resultado)) {
+    $resultado = $mysqli->query($consulta);
+     while ($fila = $resultado->fetch_array()) {
       $canch=$fila['id_cancha'];
       if ($canch==$id_cancha ) //pregunto si el id_cancha seleccionado en mi primera opcion es parecido al id_cancha obtenido del Query
       {
@@ -659,11 +664,11 @@ if (!empty ($_GET["mensaje"]))
           $r = explode(',', $dep);
           if ($dia == $r[1] && $hora == $r[2]) 
             {
-              $cantida_clase=mysql_query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
+              $cantida_clase=$mysqli->query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
               WHERE t_horario.cod_clase = t_clase.cod_clase
               AND t_horario.cod_clase =  '$r[3]'
               AND t_horario.dia = '$dia'");
-              $total_x_codigo=mysql_fetch_array($cantida_clase);
+              $total_x_codigo = $cantida_clase->fetch_array();
               $ttxcodigo=$total_x_codigo['total'];
               $hora_dl_count=$total_x_codigo['hora_inicio'];
               if ($hora_dl_count==$hora){  //condicion para entrar solo una vez a abrir la tabla y hacer el rowspan

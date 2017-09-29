@@ -1,4 +1,6 @@
-<?php session_start();?>
+<?php session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -79,7 +81,7 @@
 				} // FIN CASE ?>
 			<?php 
 			}else{
-				header('Location: index.php');
+				//header('Location: index.php');
 			}?>
 		  </ul>
 		</nav>

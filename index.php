@@ -92,7 +92,7 @@
 if (!(empty ($_POST['usu'])))
 {	
 	include ("configuration/conexion.php");
-	$link=Conectarse(); 
+	
 	$usuario=$_POST['usu'];
 	//$contra=;
 	//$passwordcodificado4 = $_POST['contra']; //Encriptacion nivel 1
@@ -104,13 +104,14 @@ if (!(empty ($_POST['usu'])))
 
     $_SESSION['usu']=$usuario;	
 	$consulta="SELECT * FROM t_entrenador WHERE usuario='$usuario' AND contrasena='$passwordcodificado4'";
-	$resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
-	if (!(@mysql_num_rows($resultados)==0))
+	$mysqli=Conectarse(); 
+	$resultados= $mysqli->query($consulta);
+	if (!($resultados->num_rows==0))
 	{			
-   	   $row = mysql_fetch_array($resultados);
-	   $id_tipo_usuario= $row["id_tipo_usuario"];
-	   $_SESSION['id_tipo_usuario']=$id_tipo_usuario;
-	   if ($id_tipo_usuario==2){ //si es coordinador mi llevo el ide del mismo en session
+   	   $row = $resultados->fetch_array();
+	   $id_tipo_usuario = $row["id_tipo_usuario"];
+	   $_SESSION['id_tipo_usuario'] = $id_tipo_usuario;
+	   if ($id_tipo_usuario == 2){ //si es coordinador mi llevo el ide del mismo en session
 	   	$_SESSION['id_coordinador']=$row["id_entrenador"]; 
 	   }
 	   

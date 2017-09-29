@@ -34,7 +34,7 @@
         </tr>
         <?php
     include ('configuration/conexion.php');
-     conectarse();
+     $mysqli=Conectarse();
 	 //header('Content-Type: text/html; charset=ISO-8859-1'); 
 	 //header('Content-Type: text/html; charset=UTF-8'); 
 	 $consulta="SELECT * 
@@ -54,11 +54,11 @@
 				";
 		}	
 	
-	 $resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
+	$resultados = $mysqli->query($consulta);
 	$i=0;
-	if (!(@mysql_num_rows ($resultados) == 0))
+	if (!($resultados->num_rows == 0))
 		{
-			while ($campo = mysql_fetch_array($resultados))
+			while ($campo = $resultados->fetch_array())
 			{
 				$id_deportista=$campo['id_deportista'];
 				$estatus=$campo['estatus'];
@@ -79,9 +79,9 @@
           <td><?PHP echo $nombres," ",$apellidos?></td>
           <td><?PHP 
 	  	$consul_clases="SELECT * FROM t_inscrito, t_estatus_inscrito WHERE id_deportista='$id_deportista' AND id_estatus_inscrito=estatus ORDER BY estatus, fecha_inscripcion LIMIT 4";
-		$result_clases= mysql_query($consul_clases);
+		$result_clases= $mysqli->query($consul_clases);
 		$x=1;
-		while ($campo = mysql_fetch_array($result_clases)){
+		while ($campo = $result_clases->fetch_array()){
 				if ($campo['id_estatus_inscrito']==1)
 				{print "<label style='color:blue'>";}
 				else {print "<label style='color:red'>";}
