@@ -36,15 +36,15 @@
                    <td>
 				   <?php
 				   include ('../configuration/conexion.php');
-				   conectarse();
+				   $mysqli=Conectarse();
 				   //header('Content-Type: text/html; charset=ISO-8859-1'); 
 				   ?><span class="contact">
                    <select class="select-style" name="id_instalacion" id="id_instalacion" tabindex="6">
                        <option value="" selected="selected">Seleccione</option>
                    <?php
                    $consulta = "SELECT * FROM t_instalacion";
-				   $resultado = mysql_query($consulta);
-				   while ($fila = mysql_fetch_assoc($resultado)) {
+				   $resultado = $mysqli->query($consulta);
+				   while ($fila = $resultado->fetch_array()) {
 					   ?>
                        <option value=<?php  print $fila['id_instalacion']?>><?php print $fila['instalacion'];?></option>
                   <?php } //cierro el While?>

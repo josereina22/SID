@@ -2,11 +2,11 @@
 <?php 
 if(isset($_GET['id_cancha'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+	$mysqli=Conectarse();
 	$sql="SELECT * FROM t_cancha
 			WHERE id_cancha=".$_GET['id_cancha'];
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+	$resultado=$mysqli->query($sql);
+	$registro= $resultado->fetch_array();
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,10 +56,10 @@ if(isset($_GET['id_cancha'])){
                        <option value="" selected="selected">Seleccione</option>
                    <?php
 					$sSQL="SELECT * FROM t_instalacion";
-					$result=mysql_query($sSQL);
+					$result=$mysqli->query($sSQL);
 					$i=1;
                     //Generamos el menu desplegable
-					while ($fila = mysql_fetch_assoc($result)) {
+					while ($fila = $result->fetch_array()) {
 					   ?>
                         <option value="<?php print $fila['id_instalacion']; ?>" <?php if($fila['id_instalacion']==$registro['id_instalacion']){?> selected="selected" <?php }?>><?php print $fila['instalacion'];?></option>
                       <?php } ?>

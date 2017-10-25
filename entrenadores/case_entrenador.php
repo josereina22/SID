@@ -1,7 +1,7 @@
 <?php session_start(); ?>
 <?php
 include ("../configuration/conexion.php");
-Conectarse ();
+$mysqli = Conectarse ();
 $seleccion=$_REQUEST["seleccion"];
 
 switch($seleccion)
@@ -16,7 +16,7 @@ case 1:
 	print $passwordcodificado4;
 	//exit;
 
-	mysql_query ("INSERT INTO t_entrenador VALUES('','$_POST[nombres]','$_POST[apellidos]', '$_POST[sexo]', '$_POST[email]', '$_POST[usuario]', '$passwordcodificado4', '$_POST[cargo]','$_POST[coordinador]','1')") or die("error en Incluir: ".mysql_error());
+	$mysqli->query("INSERT INTO t_entrenador VALUES('','$_POST[nombres]','$_POST[apellidos]', '$_POST[sexo]', '$_POST[email]', '$_POST[usuario]', '$passwordcodificado4', '$_POST[cargo]','$_POST[coordinador]','1')") or die("error en Incluir: ".mysql_error());
 	
 	header('Location: ../entrenadores.php');
 	break;	
@@ -33,7 +33,7 @@ case 2:
 
 	
 	// Aqui será demasiado dificil poder llegar a la password verdadera ya que por ejemplo, podrian desencriptar el md5 pero aún faltaria demasiado.
-	mysql_query("UPDATE t_entrenador SET nombres='$_POST[nombres]', apellidos='$_POST[apellidos]', sexo='$_POST[sexo]', email='$_POST[email]', usuario='$_POST[usuario]', $contrasena id_tipo_usuario='$_POST[cargo]', coordinado_por='$_POST[coordinador]', estatus='$_POST[estatus]' WHERE id_entrenador= '$_POST[id_entrenador]'") OR  die("error en Actualizar: ".mysql_error());
+	$mysqli->query("UPDATE t_entrenador SET nombres='$_POST[nombres]', apellidos='$_POST[apellidos]', sexo='$_POST[sexo]', email='$_POST[email]', usuario='$_POST[usuario]', $contrasena id_tipo_usuario='$_POST[cargo]', coordinado_por='$_POST[coordinador]', estatus='$_POST[estatus]' WHERE id_entrenador= '$_POST[id_entrenador]'") OR  die("error en Actualizar: ".mysql_error());
 		header('Location: ../entrenadores.php');
 	break;
 case 3:

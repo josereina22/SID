@@ -36,15 +36,19 @@
 </form>
 <?php
 include ("configuration/conexion.php");
-$link=Conectarse();
+$mysqli = Conectarse();
 // pregunto si la variable pass viene mediente el metodo POST, es decir le dimos click a "Cambiar"
 if (!(empty ($_POST['contra_actual'])))
 {
 	$usuario=$_SESSION['usu'];
 	$contra=$_POST['contra_actual'];
-	$consulta="SELECT * FROM t_entrenador WHERE usuario='$usuario' AND contrasena='$contra'";
-	$resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
-	if (!(@mysql_num_rows($resultados)==0))
+	$passwordcodificado = md5 ($_POST['contra_actual']); //Encriptacion nivel 1
+	$passwordcodificado2 = crc32($passwordcodificado); //Encriptacion nivel 1
+	$passwordcodificado3 = crypt($passwordcodificado2, "xtemp"); //Encriptacion nivel 2
+	$passwordcodificado4 = sha1("xtemp".$passwordcodificado3); //Encriptacion nivel 3
+	$consulta="SELECT * FROM t_entrenador WHERE usuario='$usuario' AND contrasena='$passwordcodificado4'";
+	$resultados= $mysqli->query($consulta);
+	if (!($resultados->num_rows == 0))
 	{
 		$contra_nueva=$_POST['contra_nueva'];
 		$contra_confir=$_POST['contra_confir'];			
@@ -53,7 +57,7 @@ if (!(empty ($_POST['contra_actual'])))
 		}//cierro el if <>
 		else{
 			if($contra_nueva==$contra_confir){
-				mysql_query("UPDATE t_entrenador SET contrasena='$contra_confir' WHERE usuario ='$usuario'");
+				$mysqli->query("UPDATE t_entrenador SET contrasena='$contra_confir' WHERE usuario ='$usuario'");
 				print "Registro Actualizado";
 			} //cierro el if =
 			else{

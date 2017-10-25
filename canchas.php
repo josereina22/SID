@@ -32,7 +32,7 @@
         </tr>
         <?php
     include ('configuration/conexion.php');
-     conectarse();
+     $mysqli=Conectarse(); 
 	 header('Content-Type: text/html; charset=UTF-8'); 
 	 $consulta="SELECT id_cancha, cancha, instalacion, t_cancha.status 
 	 			FROM t_cancha, t_instalacion
@@ -51,11 +51,11 @@
 				";
 		}	
 	
-	 $resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
+	 $resultados= $mysqli->query($consulta) or die("error consulta: ".mysql_error());
 	$i=0;
-	if (!(@mysql_num_rows ($resultados) == 0))
+	if (!($resultados->num_rows == 0))
 		{
-			while ($campo = mysql_fetch_array($resultados))
+			while ($campo = $resultados->fetch_array())
 			{
 				$id_cancha=$campo['id_cancha'];
 				$cancha=$campo['cancha'];

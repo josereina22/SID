@@ -35,7 +35,7 @@
         </tr>
         <?php
     include ('configuration/conexion.php');
-     conectarse();
+     $mysqli = Conectarse();
 	 header('Content-Type: text/html; charset=ISO-8859-1'); 
 	 $consulta="SELECT * 
 	 			FROM t_instalacion 
@@ -56,11 +56,11 @@
 				";
 		}	
 	
-	 $resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
+	$resultados= $mysqli->query($consulta);
 	$i=0;
-	if (!(@mysql_num_rows ($resultados) == 0))
+	if (!($resultados->num_rows == 0))
 		{
-			while ($campo = mysql_fetch_array($resultados))
+			while ($campo = $resultados->fetch_array())
 			{
 				$id_instalacion=$campo['id_instalacion'];
 				$instalacion=$campo['instalacion'];

@@ -3,7 +3,7 @@ session_start();
 setlocale(LC_TIME, 'es_VE'); # Localiza en español es_Venezuela
 date_default_timezone_set('America/Caracas');
 include("../configuration/conexion.php");
-Conectarse();
+$mysqli = Conectarse();
 if (isset($_REQUEST["seleccion"]))
  { $seleccion=$_REQUEST["seleccion"];}
 else
@@ -49,8 +49,9 @@ $query="SELECT * FROM t_entrenador, t_clase, t_disciplina, t_instalacion, t_canc
 			AND t_cancha.id_cancha=t_clase.id_cancha
 			AND t_horario.cod_clase=t_clase.cod_clase
 			GROUP BY t_horario.cod_clase";
-$consul=mysql_query($query);
-$row=mysql_fetch_array($consul);
+$consul=$mysqli->query($query);
+
+$row=$consul->fetch_array();
 //break;
 $dia_semana=array('','LU','MA','MI','JU','VI','SA','DO');?>
 </p>
@@ -183,10 +184,10 @@ $SQL="SELECT t_deportista.id_deportista, t_deportista.nombres, t_deportista.apel
 	 AND t_inscrito.estatus=1
 	 ";	 
 
-header('Content-Type: text/html; charset=ISO-9881');			
-$consulta=mysql_query($SQL);
+//header('Content-Type: text/html; charset=ISO-9881');			
+$consulta=$mysqli->query($SQL);
 $tt_alumnos=0;
-while ($fila=mysql_fetch_assoc($consulta)){	
+while ($fila = $consulta->fetch_array()){	
 ?>	<tr>
 	<td><?print $tt_alumnos + 1; print " ) "; ?> </td>
     <td><?php print $id_deportista=$fila["id_deportista"];?></td>
@@ -231,12 +232,12 @@ while ($fila=mysql_fetch_assoc($consulta)){
 				print date('Y-n');
 				print "<BR>";
 				print date('Y')."-".(date('n')-1);*/
-				$resul_asis= mysql_query("SELECT * FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha' AND dia='$dia_semana[$i]'");
+				$resul_asis= $mysqli->query("SELECT * FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha' AND dia='$dia_semana[$i]'");
 				if (($month==date('Y-n')) or ($month==date('Y')."-".(date('n')-1)))
 				{//$disabled="";
 				}
 				else {$disabled="disabled";}
-				if(!mysql_num_rows($resul_asis)==0){ ?>
+				if(!$resul_asis->num_rows==0){ ?>
 				<input type='checkbox' name="<?php print $check;?>" id="<?php print $check;?>" checked <?php print $disabled ?>>
 			<?php
 				}
@@ -259,8 +260,8 @@ while ($fila=mysql_fetch_assoc($consulta)){
 							$_SESSION['fecha_rep']=$fecha_rep; //PARA LLEVAME EL AÑO Y MES PARA seleccion1
 							//print $month;
 	  						//print $fecha_rep=strftime('%Y')."-".strftime('%m')."-00";
-							$resul_asis= mysql_query("SELECT * FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha_rep' AND dia='MES'");
-					if(!mysql_num_rows($resul_asis)==0){ ?>
+							$resul_asis= $mysqli->query("SELECT * FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha_rep' AND dia='MES'");
+					if(!$resul_asis->num_rows==0){ ?>
                 		<input type='checkbox' name="<?php print $check;?>" id="<?php print $check;?>"  checked <?php print $disabled ?>
 					<?php }	
 					else{?>
@@ -314,8 +315,8 @@ $query="SELECT * FROM t_entrenador, t_clase, t_disciplina, t_instalacion, t_canc
 			AND t_cancha.id_cancha=t_clase.id_cancha
 			AND t_horario.cod_clase=t_clase.cod_clase
 			GROUP BY t_horario.cod_clase";
-$consul=mysql_query($query);
-$row=mysql_fetch_array($consul);
+$consul = $mysqli->query($query);
+$row=$consul->fetch_array();
 //break;
 $dia_semana=array('','LU','MA','MI','JU','VI','SA','DO');?>
 <table width="700" border="0" cellpadding="1" align="center" bgcolor="#6594D1">
@@ -444,14 +445,14 @@ $SQL="SELECT t_deportista.id_deportista, t_deportista.nombres, t_deportista.apel
 	 ";	 
 
 			
-$consulta=mysql_query($SQL);
+$consulta=$mysqli->query($SQL);
 $tt_alumnos=0;
 	//$año_mes=strftime('%Y')."-".strftime('%m'); //del equipo
 	$fecha_rep=$_SESSION['fecha_rep']; //fecha segun la seleccion 
 	$año_mes=strftime('%Y-%m', strtotime(substr($fecha_rep,0,7))); //año mes para el delete
 	 //echo strtoupper(strftime( '%B %Y', strtotime( $month ))); //mes en letra año actual
-	mysql_query ("DELETE FROM t_asistencia  WHERE cod_clase='$cod_clase' AND fecha LIKE '$año_mes%'");
-while ($fila=mysql_fetch_assoc($consulta)){	
+	$mysqli->query ("DELETE FROM t_asistencia  WHERE cod_clase='$cod_clase' AND fecha LIKE '$año_mes%'");
+while ($fila=$consulta->fetch_array()){	
 ?>	<tr>
     <td><?php print $id_deportista=$fila["id_deportista"];?></td>
     <td><?php print ($fila["nombres"])." ".$fila["apellidos"];?> </td>
@@ -479,7 +480,7 @@ while ($fila=mysql_fetch_assoc($consulta)){
 				 //print $fecha_rep=strtoupper(strftime( '%Y-%m', strtotime( $month )));  //mismo que el de abajo
 				  $año_mes."-00"; 													//mismo que el de arriba
 				if (isset($_REQUEST[$check])){
-					mysql_query("INSERT INTO t_asistencia (cod_clase, id_deportista, fecha, dia) VALUES('$cod_clase', '$id_deportista', '$año_mes-$dias_mes', '$dia_semana[$i]')");
+					$mysqli->query("INSERT INTO t_asistencia (cod_clase, id_deportista, fecha, dia) VALUES('$cod_clase', '$id_deportista', '$año_mes-$dias_mes', '$dia_semana[$i]')");
 					//print "si";
 					?>
 					<input type='checkbox' name="<?php print $check;?>" id="<?php print $check;?>" checked>
@@ -507,12 +508,12 @@ while ($fila=mysql_fetch_assoc($consulta)){
 		print $fecha_rep=strtoupper(strftime( '%Y-%m', strtotime( $month )))."-00";
 		//$fecha_rep=strftime('%Y')."-".strftime('%m')."-00";
 		if (isset($_REQUEST[$check])){
-					mysql_query("INSERT INTO t_asistencia (cod_clase, id_deportista, fecha, dia) VALUES('$cod_clase', '$id_deportista', '$fecha_rep', 'MES')");
+					$mysqli->query("INSERT INTO t_asistencia (cod_clase, id_deportista, fecha, dia) VALUES('$cod_clase', '$id_deportista', '$fecha_rep', 'MES')");
 					//print "si";
 					?><input type='checkbox' name="<?php print $check;?>" id="<?php print $check;?>" checked><?php
 					}
 				else{
-					mysql_query("DELETE FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha_rep' AND dia='MES'");
+					$mysqli->query("DELETE FROM t_asistencia  WHERE cod_clase='$cod_clase' AND id_deportista='$id_deportista' AND fecha='$fecha_rep' AND dia='MES'");
 					//print "NO";
 					?> <input type='checkbox' name="<?php print $check;?>" id="<?php print $check;?>"> <?php
 					}

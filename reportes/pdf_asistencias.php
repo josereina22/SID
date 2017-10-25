@@ -6,7 +6,7 @@ header('Content-Type: text/html; charset=UTF-8');
 require('../fpdf17/fpdf.php'); 
 if(isset($_GET['cod_clase'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+	$mysqli = Conectarse();
 	$cod_clase=$_GET['cod_clase'];
 $query="SELECT * FROM t_entrenador, t_clase, t_disciplina, t_instalacion, t_cancha, t_horario 
 			WHERE t_clase.cod_clase='$cod_clase'
@@ -16,8 +16,8 @@ $query="SELECT * FROM t_entrenador, t_clase, t_disciplina, t_instalacion, t_canc
 			AND t_cancha.id_cancha=t_clase.id_cancha
 			AND t_horario.cod_clase=t_clase.cod_clase
 			GROUP BY t_horario.cod_clase";
-$consul=mysql_query($query);
-$row=mysql_fetch_array($consul);
+$consul=$mysqli->query($query);
+$row=$consul->fetch_array();
 class PDF extends FPDF 
 {
   function Header() //Encabezado
@@ -252,10 +252,10 @@ $SQL="SELECT t_deportista.id_deportista, t_deportista.nombres, t_deportista.apel
 	 AND t_deportista.id_deportista=t_inscrito.id_deportista
 	 AND t_inscrito.estatus=1
 	 ";	 
-$consulta=mysql_query($SQL);
+$consulta=$mysqli->query($SQL);
 
 $y=0;
-while ($campo = mysql_fetch_array($consulta)){
+while ($campo = $consulta->fetch_array()){
 	 $nombre[$y]=$campo;
 	$y++;
 }

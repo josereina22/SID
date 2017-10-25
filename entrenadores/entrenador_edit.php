@@ -4,11 +4,11 @@
 <?php 
 if(isset($_GET['id_entrenador'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+	$mysqli = Conectarse();
 	$sql="SELECT * FROM t_entrenador
 			WHERE id_entrenador=".$_GET['id_entrenador'];
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+	$resultado=$mysqli->query($sql);
+	$registro= $resultado->fetch_array();
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,13 +51,13 @@ if(isset($_GET['id_entrenador'])){
     			    <td>
                     <?php
 					$sSQL="SELECT * FROM t_sexo";
-					$result=mysql_query($sSQL);
+					$result=$mysqli->query($sSQL);
 					$i=1;?>
                     
                     <select class='select-style gender' name="sexo" id="sexo">
                     <option value="0">Seleccione</option>
                     <?php //Generamos el menu desplegable
-					while ($row=mysql_fetch_array($result))
+					while ($row = $result->fetch_array())
 					 {?>
                         <option value=<?php print $row["id_sexo"]; if($row["id_sexo"]==$registro["sexo"]){?> selected="selected" <?php }?>><?php print $row["sexo"];?></option>
                       <?php } ?>
@@ -115,12 +115,12 @@ if(isset($_GET['id_entrenador'])){
     			    <td>
                     <?php
 					$sSQL="SELECT * FROM t_tipo_usuario";
-					$result=mysql_query($sSQL);
+					$result=$mysqli->query($sSQL);
 					?>
                     <select class='select-style gender' name="cargo" id="cargo">
                         <option value='0'>Seleccione</option>
                     <?php //Generamos el menu desplegable
-					while ($row=mysql_fetch_array($result)){?>
+					while ($row=$result->fetch_array()){?>
                     	<option value=<?php print $row["id_tipo_usuario"]; if($row["id_tipo_usuario"]==$registro["id_tipo_usuario"]){?> selected="selected" <?php }?>><?php print $row["tipo_usuario"];?>
                         </option>
            			<?php } ?>
@@ -137,8 +137,8 @@ if(isset($_GET['id_entrenador'])){
                   <option value="-">Seleccione..</option>
               <?php 
               $consulta = "SELECT * FROM t_entrenador WHERE id_tipo_usuario=2";
-              $resultado = mysql_query($consulta);
-              while ($fila = mysql_fetch_assoc($resultado)) { ?>
+              $resultado = $mysqli->query($consulta);
+              while ($fila = $resultado->fetch_array()) { ?>
                  <option value= <?php print $fila['id_entrenador'] ; if($fila["id_entrenador"]==$registro["coordinado_por"]){?> selected="selected" <?php }?> ><?php print $fila['nombres']." ".$fila['apellidos']?></option> 
               <?php } //cierro el While?>
                  </select>

@@ -68,15 +68,15 @@
                    <td>
 				   <?php
 				   include ('../configuration/conexion.php');
-				   conectarse();
+				   $mysqli = Conectarse();
 				   //header('Content-Type: text/html; charset=ISO-8859-1'); 
 				   ?><span class="contact">
                    <select class="select-style" name="coordinador" id="coordinador" tabindex="6">
                        <option value="" selected="selected">Seleccione</option>
                    <?php
                    $consulta = "SELECT * FROM t_entrenador WHERE id_tipo_usuario=2";
-				   $resultado = mysql_query($consulta);
-				   while ($fila = mysql_fetch_assoc($resultado)) {
+				   $resultado = $mysqli->query($consulta);
+				   while ($fila = $resultado->fetch_array()) {
 					    $nombre_apell="'$fila[nombres] $fila[apellidos]'";
 					   ?>
                        <option value=<?php  print $nombre_apell?>><?php print $fila['nombres']." ".$fila['apellidos']?></option>

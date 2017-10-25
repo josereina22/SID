@@ -2,11 +2,11 @@
 <?php 
 if(isset($_GET['id_disciplina'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+	$mysqli=Conectarse();
 	$sql="SELECT * FROM t_disciplina
 			WHERE id_disciplina=".$_GET['id_disciplina'];
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+	$resultado=$mysqli->query($sql);
+	$registro= $resultado->fetch_array();
 ?>
 <!DOCTYPE html>
 <html>

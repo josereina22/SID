@@ -29,16 +29,16 @@
   </tr>
 <?php
 	include("../configuration/conexion.php");
-	Conectarse();
+	$mysqli = Conectarse();
   header('Content-Type: text/html; charset=UTF-8');      
 $usuario=$_SESSION['usu'];
 if (isset($_GET['id_entrenador']))
 {
 	$id_entrenador=$_GET['id_entrenador'];
 	$sql="SELECT * FROM t_entrenador WHERE id_entrenador=$id_entrenador";
-	$consulta=mysql_query($sql);
-	$fila=mysql_fetch_assoc($consulta);
-	$usuario=$fila['usuario'];
+	$consulta = $mysqli->query($sql);
+	$fila = $consulta->fetch_array();
+	$usuario = $fila['usuario'];
 	print $nombres=$fila['nombres']." ".$apellidos=$fila['apellidos'];
 	}
 	
@@ -51,8 +51,8 @@ if (isset($_GET['id_entrenador']))
 			AND t_horario.cod_clase=t_clase.cod_clase
 			AND usuario='$usuario'
 			GROUP BY t_horario.cod_clase";
-	$consulta=mysql_query($sql);
-	while ($fila=mysql_fetch_assoc($consulta)){		
+	$consulta = $mysqli->query($sql);
+	while ($fila = $consulta->fetch_array()){		
 ?>
   <tr>
   	<td><a href="clase_entrenador.php?cod_clase=<?php echo $fila["cod_clase"]?>" target="cuerpo"><label style="background:#AEE4FF; border-radius:3px">Detalle</label></a></td>

@@ -4,7 +4,7 @@
   header('Content-Type: text/html; charset=utf-8');
 	$usuario=$_SESSION['usu'];
 	include ('configuration/conexion.php');
-  conectarse();
+  $mysqli=Conectarse(); 
 ?>
 <html>
 <head>
@@ -52,8 +52,9 @@
            <option value="" selected="selected">Seleccione</option>
           <?php
 			       $consulta = "SELECT * FROM t_disciplina";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultados= $mysqli->query($consulta);
+             
+             while ($fila = $resultados->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_disciplina']?>><?php print $fila['disciplina']?></option>	
           <?php } //cierro el While?>
@@ -133,7 +134,7 @@
 
       " ; */
 //exit();
-  $consulta=mysql_query($sql);
+  $consulta= $mysqli->query($sql)
 ?>
 <p align="center"> Disponibilidad de las Clases</p>
 <table width="1000" border="1" cellpadding="3" align="center" id="striped">
@@ -153,7 +154,7 @@
   </tr>
 <?php
   $i=0;
-  while ($fila=mysql_fetch_assoc($consulta)){ 
+  while ($fila=$consulta->fetch_array()){ 
     if ($fila["disponible"]<=0){
       $bgcolor="bgcolor='YELLOW'";
     }else{$bgcolor="";}

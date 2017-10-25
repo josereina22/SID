@@ -94,10 +94,10 @@
                   <option value="-">Seleccione..</option>
               <?php 
               include ('../configuration/conexion.php');
-              Conectarse(); 
+              $mysqli = Conectarse(); 
               $consulta = "SELECT * FROM t_tipo_usuario";
-              $resultado = mysql_query($consulta);
-              while ($fila = mysql_fetch_assoc($resultado)) { ?>
+              $resultado = $mysqli->query($consulta);
+              while ($fila = $resultado->fetch_array()) { ?>
     			       <option value= <?php print $fila['id_tipo_usuario']?> ><?php print $fila['tipo_usuario']?></option> 
               <?php } //cierro el While?>
   			         </select>
@@ -113,8 +113,8 @@
                   <option value="-">Seleccione..</option>
               <?php 
               $consulta = "SELECT * FROM t_entrenador WHERE id_tipo_usuario=2";
-              $resultado = mysql_query($consulta);
-              while ($fila = mysql_fetch_assoc($resultado)) { ?>
+              $resultado = $mysqli->query($consulta);
+              while ($fila = $resultado->fetch_array()) { ?>
                  <option value= <?php print $fila['id_entrenador']?> ><?php print $fila['nombres']." ".$fila['apellidos']?></option> 
               <?php } //cierro el While?>
                  </select>

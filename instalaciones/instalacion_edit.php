@@ -2,11 +2,11 @@
 <?php 
 if(isset($_GET['id_instalacion'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+	$mysqli = Conectarse();
 	$sql="SELECT * FROM t_instalacion
 			WHERE id_instalacion=".$_GET['id_instalacion'];
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+	$resultado=$mysqli->query($sql);
+	$registro= $resultado->fetch_array();
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,10 +86,10 @@ if(isset($_GET['id_instalacion'])){
                        <option value="" selected="selected">Seleccione</option>
                    <?php
 					$sSQL="SELECT * FROM t_entrenador WHERE id_tipo_usuario=2 OR id_tipo_usuario=1";
-					$result=mysql_query($sSQL);
+					$result=$mysqli->query($sSQL);
 					$i=1;
                     //Generamos el menu desplegable
-					while ($fila = mysql_fetch_assoc($result)) {
+					while ($fila = $result->fetch_array()) {
 					    $nombre_apell="$fila[nombres] $fila[apellidos]";
 					   ?>
                         <option value="<?php print $nombre_apell; ?>" <?php if($nombre_apell==$registro['coordinador']){?> selected="selected" <?php }?>><?php print $nombre_apell;?></option>

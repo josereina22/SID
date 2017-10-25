@@ -53,14 +53,14 @@ function confirmar()
   </tr>
 <?php
 	include("../configuration/conexion.php");
-	Conectarse();
+	$mysqli=Conectarse(); 
 $usuario=$_SESSION['usu'];
 if (isset($_GET['id_entrenador']))
 {
 	$id_entrenador=$_GET['id_entrenador'];
 	$sql="SELECT * FROM t_entrenador WHERE id_entrenador=$id_entrenador";
-	$consulta=mysql_query($sql);
-	$fila=mysql_fetch_assoc($consulta);
+  $consulta=$mysqli->query($sql);
+	$fila=$consulta->fetch_array();
 	$usuario=$fila['usuario'];
 	print $nombres=$fila['nombres']." ".$apellidos=$fila['apellidos'];
 	}
@@ -88,9 +88,9 @@ if (isset($_GET['id_entrenador']))
 				OR apellidos LIKE '%$buscar%')
 			";
 	}
-	$consulta=mysql_query($sql);
+	$consulta=$mysqli->query($sql);
   $xx=0;
-	while ($fila=mysql_fetch_assoc($consulta)){		
+	while ($fila=$consulta->fetch_array()){		
     $xx++;
 ?>
   <tr>  	

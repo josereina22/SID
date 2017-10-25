@@ -17,31 +17,31 @@ function imprSelec(muestra)
 <div id="muestra"> 
 <?php
 include ('../configuration/conexion.php');
-Conectarse();
+$mysqli = Conectarse();
 
 $usuario=$_SESSION['usu']; 
 if (isset($_GET['id_entrenador']))
 {
 	$id_entrenador=$_GET['id_entrenador'];
 	$sql="SELECT * FROM t_entrenador WHERE id_entrenador=$id_entrenador";
-	$consulta=mysql_query($sql);
-	$fila=mysql_fetch_assoc($consulta);
+	$consulta=$mysqli->query($sql);
+	$fila=$consulta->fetch_array();
 	$usuario=$fila['usuario'];
 	print "Entrenador: ".$nombres=$fila['nombres']." ".$apellidos=$fila['apellidos'];
 }
 //Hora Para Armar el Horarios almacedanas en la Base de Datos
 $consul_hora = "SELECT * FROM t_hora";
-$result_hora = mysql_query($consul_hora);
+$result_hora = $mysqli->query($consul_hora);
 $y=0;
-while ($fila_hora = mysql_fetch_assoc($result_hora)) {
+while ($fila_hora = $result_hora->fetch_array()) {
 	$horas[$y]=$fila_hora['hora'];
 	$y++;
  }
 //Los dias de la semana que van en el horario 
 $consul_sem = "SELECT * FROM t_semana";
-$result_sem = mysql_query($consul_sem);
+$result_sem = $mysqli->query($consul_sem);
 $y=0;
-while ($fila_sem= mysql_fetch_assoc($result_sem)) {
+while ($fila_sem=  $result_sem->fetch_array()) {
 	$sem[$y]=$fila_sem['abv_semana'];
 	$nombre_sem[$y]=$fila_sem['semana'];
 	$y++;
@@ -64,9 +64,9 @@ $consulta =    "SELECT t_entrenador.id_entrenador, nombres, apellidos, id_cancha
 				AND t_clase.id_disciplina=t_disciplina.id_disciplina
 				AND t_entrenador.usuario='$usuario'
 				";  //hago el selec segun la cancha
-$resultado = mysql_query($consulta);
+$resultado = $mysqli->query($consulta);
 $y=0;
- while ($fila = mysql_fetch_assoc($resultado)) {
+ while ($fila = $resultado->fetch_array()) {
 	$canch=$fila['id_cancha'];
 
 		$disciplina=$fila['disciplina']; //obtengo el nombre de la disciplina segun su id
@@ -91,28 +91,30 @@ foreach ($horas as $hora) {
 		{$impar=0;}
 		$impar++;
         foreach ($sem as $dia) {
+          if(isset($id_disciplina)){
         	if(is_array($id_disciplina)||is_object($id_disciplina)){ 
-            foreach ($id_disciplina as $dep)
-			{
-				$r = explode(',', $dep);
-                if ($dia == $r[1] && $hora == $r[2]) 
+	            foreach ($id_disciplina as $dep)
 				{
-					$cantida_clase=mysql_query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
-					WHERE t_horario.cod_clase = t_clase.cod_clase
-					AND t_horario.cod_clase =  '$r[3]'
-					AND t_horario.dia = '$dia'");
-					$total_x_codigo=mysql_fetch_array($cantida_clase);
-					$ttxcodigo=$total_x_codigo['total'];
-					$hora_dl_count=$total_x_codigo['hora_inicio'];
-					if ($hora_dl_count==$hora){  //condicion para entrar solo una vez a abrir la tabla y hacer el rowspan
-						print "<td rowspan=$ttxcodigo>";
-						print $r[0];print "<BR>";print $r[3];
-						}					
-                    $x = 1;					
-                }
-				
-            }
+					$r = explode(',', $dep);
+	                if ($dia == $r[1] && $hora == $r[2]) 
+					{
+						$cantida_clase=$mysqli->query("SELECT COUNT( * ) AS total, t_horario.hora_inicio FROM t_horario, t_clase 
+						WHERE t_horario.cod_clase = t_clase.cod_clase
+						AND t_horario.cod_clase =  '$r[3]'
+						AND t_horario.dia = '$dia'");
+						$total_x_codigo=$cantida_clase->fetch_array();
+						$ttxcodigo=$total_x_codigo['total'];
+						$hora_dl_count=$total_x_codigo['hora_inicio'];
+						if ($hora_dl_count==$hora){  //condicion para entrar solo una vez a abrir la tabla y hacer el rowspan
+							print "<td rowspan=$ttxcodigo>";
+							print $r[0];print "<BR>";print $r[3];
+							}					
+	                    $x = 1;					
+	                }
+					
+	            }
         	}//fin if
+          }
             //$diahora="";
 			if ($x == 0) 
 			{
