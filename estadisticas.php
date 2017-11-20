@@ -1,6 +1,6 @@
 <?php
   include ('configuration/conexion.php');
-     conectarse();
+  $mysqli=Conectarse();
 	 //header('Content-Type: text/html; charset=ISO-8859-1'); 
 ?>
 <html>
@@ -91,8 +91,8 @@
           <option value="" selected="selected">Seleccione</option>
           <?php
 			 $consulta = "SELECT * FROM t_instalacion";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_instalacion']?>><?php print $fila['instalacion']?></option>	
           <?php } //cierro el While?>
@@ -108,8 +108,8 @@
            <option value="" selected="selected">Seleccione</option>
           <?php
 			 $consulta = "SELECT * FROM t_disciplina";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_disciplina']?>><?php print $fila['disciplina']?></option>	
           <?php } //cierro el While?>
@@ -125,8 +125,8 @@
           <option value="" selected="selected">Seleccione</option>
           <?php
 			 $consulta = "SELECT * FROM t_municipio";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_municipio']?>><?php print $fila['municipio']?></option>	
           <?php } //cierro el While?>
@@ -142,8 +142,8 @@
           <option value="" selected="selected">Seleccione</option>
           <?php
 			 $consulta = "SELECT * FROM t_urbanizacion";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_urbanizacion']?>><?php print $fila['urbanizacion']?></option>	
           <?php } //cierro el While?>
@@ -162,8 +162,8 @@
             <option value="" selected="selected">Seleccione</option>
             <?php
 			 $consulta = "SELECT * FROM t_tipo_inscripcion";
-             $resultado = mysql_query($consulta);
-             while ($fila = mysql_fetch_assoc($resultado)) {
+             $resultado = $mysqli->query($consulta);
+             while ($fila = $resultado->fetch_array()) {
          ?>
           <option value=<?php print $fila['id_tipo_inscripcion']?>><?php print $fila['tipo_inscripcion']?></option>	
           <?php } //cierro el While?>
@@ -274,7 +274,7 @@
 				ORDER BY t_deportista.id_deportista DESC
 				";
 				//die($consulta);
-	 $resultados= mysql_query ($consulta) or die("error consulta: ".mysql_error());
+	 $resultados= $mysqli->query($consulta);
 ?>      
       
       <table width="900" border="1" cellpadding="3" align="center" id="striped">
@@ -287,9 +287,8 @@
         </tr>
 <?php  
 	$i=0;
-	if (!(@mysql_num_rows ($resultados) == 0))
-		{
-			while ($campo = mysql_fetch_array($resultados))
+
+			while ($campo = $resultados->fetch_array())
 			{
 				$id_deportista=$campo['id_deportista'];
 				$cedula=$campo['cedula'];
@@ -302,29 +301,28 @@
           <td><?PHP print $id_deportista?></td>
           <td><?PHP echo $cedula?></td>
           <td><?PHP echo $nombres," ",$apellidos?></td>
-          <td><?PHP  if($estatus==1){
-		  	print "ACTIVO";
-			}elseif ($estatus==2){
-				print "INACTIVO";}
-	  ?></td>
+          <td><?PHP  
+            if($estatus==1){
+		  	       print "ACTIVO";
+			      }elseif ($estatus==2){
+				      print "INACTIVO";
+            }
+	           ?>
+          </td>
           <td><?PHP 
-	  	$consul_clases="SELECT * FROM t_inscrito, t_estatus_inscrito WHERE id_deportista='$id_deportista' AND id_estatus_inscrito=estatus";
-		$result_clases= mysql_query($consul_clases);
-		$x=1;
-		while ($campo = mysql_fetch_array($result_clases)){
-				print $x.") ".$campo["cod_clase"]." ".$campo["estatus_inscrito"]; 
-				print "<BR>";
-				$x++;
-			}
-	  ?></td>
-
+        	  	$consul_clases="SELECT * FROM t_inscrito, t_estatus_inscrito WHERE id_deportista='$id_deportista' AND id_estatus_inscrito=estatus";
+        		$result_clases= $mysqli->query($consult_clases);
+        		$x=1;
+        		while ($campo = mysql_fetch_array($result_clases)){
+        				print $x.") ".$campo["cod_clase"]." ".$campo["estatus_inscrito"]; 
+        				print "<BR>";
+        				$x++;
+			      }
+	        ?></td>
         </tr>
         <?php
 	 $i++;
 			}
-		}
-	else
-	{echo "no se consigio registro";}
 	?>
       </table>
         <?php
