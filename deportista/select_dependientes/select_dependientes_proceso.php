@@ -28,20 +28,19 @@ if(validaSelect($selectDestino) && validaOpcion($opcionSeleccionada))
 {
 	$tabla=$listadoSelects[$selectDestino];
 	 include("../../configuration/conexion.php");
-	conectarse();
-	$consulta=mysql_query("SELECT id_urbanizacion, urbanizacion FROM $tabla WHERE id_municipio='$opcionSeleccionada'") or die(mysql_error());
-	desconectarse();
-	
+	$mysqli = Conectarse();
+	$consulta = $mysqli->query("SELECT id_urbanizacion, urbanizacion FROM $tabla WHERE id_municipio='$opcionSeleccionada'") or die('error');
+
 	// Comienzo a imprimir el select
 	echo "<select class='select-style gender' name='".$selectDestino."' id='".$selectDestino."' onChange='cargaContenido(this.id)'>";
 	echo "<option value='0'>Seleccione</option>";
-	while($registro=mysql_fetch_row($consulta))
+	while($registro = $consulta->fetch_array())
 	{
 		// Convierto los caracteres conflictivos a sus entidades HTML correspondientes para su correcta visualizacion
 //		$registro[1]=htmlentities($registro[1]);
 		// Imprimo las opciones del select
 		
-		echo "<option value='".$registro[0]."'>".utf8_encode($registro[1])."</option>";
+		echo "<option value='".$registro[1]."'>".utf8_encode($registro[1])."</option>";
 	}			
 	echo "</select>";
 }

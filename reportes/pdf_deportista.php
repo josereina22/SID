@@ -6,56 +6,58 @@ setlocale(LC_TIME, 'es_VE'); # Localiza en español es_Venezuela
 date_default_timezone_set('America/Caracas');
 if(isset($_GET['id_deportista'])){
 	include ('../configuration/conexion.php');
-	Conectarse();
+    $mysqli = Conectarse();
 $sql="SELECT id_deportista, cedula, nombres, apellidos, id_sexo, fecha_nac, foto, id_ocupacion, otra_ocupacion, id_grado_instruccion, emp_trabaja, id_grado, cedula_representante, id_institucion, otra_institucion, id_municipio, otro_municipio, id_urbanizacion, otra_urbanizacion, av_calle, edf_res_casa, nro_cas_res, tlf_casa, tlf_trabajo, celular1, celular2, correo1, correo2, id_grupo_sanguineo, tratamiento_medico, tratamiento1, tratamiento2, tratamiento3, pad_fisico, padecimiento1, padecimiento2, padecimiento3, alergico, alergico1, alergico2, alergico3, hcm, cual_hcm, ss, vence_cm, obs_medicos, nombre_emerg, apellido_emerg, parentesco_emerg, ocupacion_emerg, tlf_emerg, trabajo_emerg, id_tipo_inscripcion, fecha_const_tipo, obs_inscripcion, estatus
 FROM t_deportista
 WHERE id_deportista =$_GET[id_deportista]";
 //die($sql);
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+    $resultado = $mysqli->query($sql);
+	$registro = $resultado->fetch_array();
 	
 	$sqlm="SELECT * FROM t_municipio WHERE id_municipio='$registro[id_municipio]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+    $resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
+
 	if ($registro['id_municipio']==6)
 		{$municipio=$registro['otro_municipio'];}
 	else{$municipio=$registrom['municipio'];	}
 	
 	$sqlm="SELECT * FROM t_urbanizacion WHERE id_urbanizacion='$registro[id_urbanizacion]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+    $resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
+
 	if ($registro['id_urbanizacion']==24)
 		{$urbanizacion=$registro['otra_urbanizacion'];}
 	else{$urbanizacion=$registrom['urbanizacion'];	}
 	
 	$sqlm="SELECT * FROM t_ocupacion WHERE id_ocupacion='$registro[id_ocupacion]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
 	if ($registro['id_ocupacion']==693)
 		{$ocupacion=$registro['otra_ocupacion'];}
 	else{$ocupacion=$registrom['ocupacion'];}
 	
 	$sqlm="SELECT * FROM t_grado_instruccion WHERE id_grado_instruccion='$registro[id_grado_instruccion]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
 	$grado_instruccion=$registrom['grado_instruccion'];
 	
 	$sqlm="SELECT * FROM t_institucion WHERE id_institucion='$registro[id_institucion]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
 	$institucion=$registrom['institucion'];
 	if ($registro['id_institucion']==600)
 		{$institucion=$registro['otra_institucion'];}
 	else{$institucion=$registrom['institucion'];}
 	
 	$sqlm="SELECT * FROM t_grado WHERE id_grado='$registro[id_grado]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
 	$grado=$registrom['grado'];
 	
 	$sqlm="SELECT * FROM t_grupo_sanguineo WHERE id_grupo_sanguineo='$registro[id_grupo_sanguineo]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
 	$grupo_sanguineo=$registrom['grupo_sanguineo'];
 
 class PDF extends FPDF 
@@ -180,6 +182,7 @@ class PDF extends FPDF
         $this->SetTextColor(3, 3, 3); //Color del texto: Negro
 		$this->SetDrawColor(255,255,255);
         $y=0;
+        $xx = 0;
 		foreach($datos as $columna)
         {
             $this->SetXY(30, 69+$xx); //40 = 10 posiciónX_anterior + 30ancho Celdas de cabecera
@@ -424,9 +427,9 @@ $misdatoscabecera = array($registro['id_deportista'], $registro['cedula'], ($reg
 
 
 $sqlm="SELECT * FROM t_tipo_inscripcion WHERE id_tipo_inscripcion='$registro[id_tipo_inscripcion]'";
-	$resultadom=mysql_query($sqlm);
-	$registrom= mysql_fetch_array($resultadom);
-	if (!mysql_num_rows($resultadom)==0){
+	$resultadom = $mysqli->query($sqlm);
+    $registrom = $resultadom->fetch_array();
+	if ($resultadom->num_rows ==0){
 		$titulo_constancia="Vencimiento ".$registrom['descripcion_const'].":";
 	}else{$titulo_constancia="";}
 	
@@ -444,8 +447,8 @@ $datos_ocupacion= array($ocupacion, $grado_instruccion, ($registro['emp_trabaja'
 
 
 $sqlr="SELECT * FROM t_representante, t_ocupacion, t_grado_instruccion WHERE id_deportista=$_GET[id_deportista] AND t_representante.id_ocupacion=t_ocupacion.id_ocupacion AND t_representante.id_grado_instruccion=t_grado_instruccion.id_grado_instruccion";
-$resultador=mysql_query($sqlr);
-$registror= mysql_fetch_array($resultador);
+$resultador = $mysqli->query($sqlr);
+$registror = $resultador->fetch_array();
 
 $cab_repres= array('Nombres y Apellidos', 'Parentesco', 'Ocupación', 'Grado de Instrucción', 'Empresa donde Trabaja');
 $datos_repres= array($registror['nombre_representante']." " .$registror['apellido_representante'], $registror['parentesco'], $registror["ocupacion"], $registror["grado_instruccion"], $registror['empresa_trabaja']);
@@ -498,10 +501,10 @@ AND t_clase.id_cancha = t_cancha.id_cancha
 AND t_clase.id_disciplina = t_disciplina.id_disciplina
 AND t_inscrito.estatus=1
 ";
-$result_clases= mysql_query($consul_clases);
+$result_clases = $mysqli->query($consul_clases);
 $x=0;
 //print_r(mysql_fetch_array($result_clases));
-while ($campo = mysql_fetch_array($result_clases)){
+while ($campo =  $result_clases->fetch_array()){
 	$datos_cupos[$x]=$campo;
 	$x++;
 }

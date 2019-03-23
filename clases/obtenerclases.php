@@ -1,20 +1,7 @@
 <?php session_start(); ?>
 <html>
 <head>
-
-<style>
-table {
-    /*width: 100%;
-    border-collapse: collapse;*/
-}
-
-table, td, th {
-   /* border: 1px solid black;
-    /*padding: 5px;*/
-}
-
-th {text-align: left;}
-</style>
+<style>th {text-align: left;}</style>
 </head>
 <body>
 
@@ -26,7 +13,7 @@ $edad=$_SESSION['edad'];
 $id_sexo=$_SESSION['id_sexo'];
 //print $id_sexo; 
 include ('../configuration/conexion.php');
-$link=Conectarse();
+$mysqli=Conectarse();
 $sSQL="SELECT * 
 	   FROM t_clase, t_disciplina, t_horario, t_instalacion 
 	   WHERE  t_clase.id_disciplina=$q
@@ -39,8 +26,8 @@ $sSQL="SELECT *
 
 	 //$sSQL3="SELECT * FROM t_clase, t_disciplina WHERE (edad_min <=$edad AND edad_max>=$edad) AND t_clase.id_disciplina= t_disciplina.id_disciplina GROUP BY t_clase.id_disciplina";
 
-$result=mysql_query($sSQL); 
-if (!mysql_num_rows($result)==0)
+$result=$mysqli->query($sSQL);
+if (!$result->num_rows == 0)
 {
 	echo "<table>
 <tr>
@@ -54,13 +41,13 @@ if (!mysql_num_rows($result)==0)
 <th style='border: 1px solid black;'>Inscribir</th>
 </tr>";
 	}	
-while ($row=mysql_fetch_array($result))
+while ($row = $result->fetch_array())
           {
 			  print "<tr>";
 			  print "<td style='border: 1px solid black;'>" . $row['instalacion'] . "</td>";
 			  print "<td style='border: 1px solid black;'>" . $row['semanas'] . "</td>";
 			  print "<td style='border: 1px solid black;'>" . $row['hora_inicio'] . "</td>";
-			  print "<td style='border: 1px solid black;'>" . $row['cod_clase']."</td>";
+			  print "<td style='border: 1px solid black;'>" . utf8_encode($row['cod_clase'])."</td>";
 			  $cod_clase=$row['cod_clase'];
 			  print "<td style='border: 1px solid black;'>" . $row['capacidad'] . "</td>";
 			  print "<td style='border: 1px solid black;'>" . $row['inscrito'] . "</td>";

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>SID</title>
 		<link rel="shortcut icon" href="imagenes/icon.ico" type="image/ico" />
 		<link rel="stylesheet" href="fonts/estilo.css"/>

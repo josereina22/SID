@@ -1,13 +1,13 @@
-<?php session_start();?>
-<?php 
+<?php session_start();
+
 if(isset($_GET['id_deportista'])){
 	include ('../configuration/conexion.php');
-  header('Content-Type: text/html; charset=UTF-8'); 
-	Conectarse();
+  header('Content-Type: text/html; charset=UTF-8');
+    $mysqli=Conectarse();
 	$sql="SELECT * FROM t_deportista
 			WHERE t_deportista.id_deportista=".$_GET['id_deportista'];
-	$resultado=mysql_query($sql);
-	$registro= mysql_fetch_array($resultado);
+    $resultado = $mysqli->query($sql);
+	$registro = $resultado->fetch_array();
 ?>
 <!DOCTYPE html>
 <html>
@@ -107,7 +107,7 @@ if(isset($_GET['id_deportista'])){
 <script type="text/javascript" src="../jscalendar/calendar.js"></script>
 <!-- import the language module -->
 <script type="text/javascript" src="../jscalendar/lang/calendar-es.js"></script>
-<script type="text/javascript" src="../jscalendar/calendar-setup.js" /></script>
+<script type="text/javascript" src="../jscalendar/calendar-setup.js"></script>
 <link rel="stylesheet" type="text/css" href="select_dependientes/select_dependientes.css">
 <script type="text/javascript" src="select_dependientes/select_dependientes.js"></script> 
 <script type="text/javascript" charset="utf-8">
@@ -127,17 +127,17 @@ if(isset($_GET['id_deportista'])){
 <script>
 $(document).ready(function() {
     $("#content").find("[id^='tab']").hide(); // Ocultar todo el contenido
-    $("#tabs li:first").attr("id","current"); // Activar la primera pestaña
-    $("#content #tab1").fadeIn(); // Mostrar contenido de primera pestaña
+    $("#tabs li:first").attr("id","current"); // Activar la primera pestaï¿½a
+    $("#content #tab1").fadeIn(); // Mostrar contenido de primera pestaï¿½a
     
     $('#tabs a').click(function(e) {
         e.preventDefault();
-        if ($(this).closest("li").attr("id") == "current"){ //detección para la pestaña actual
+        if ($(this).closest("li").attr("id") == "current"){ //detecciï¿½n para la pestaï¿½a actual
          return;       
         }
         else{             
           $("#content").find("[id^='tab']").hide(); // Ocultar todo el contenido
-          $("#tabs li").attr("id",""); //Restablecer de Identificación
+          $("#tabs li").attr("id",""); //Restablecer de Identificaciï¿½n
          $(this).parent().attr("id","current"); // Active este id
          $('#' + $(this).attr('name')).fadeIn(); // Mostrar contenido para la ficha actual
         }
@@ -193,14 +193,14 @@ $(document).ready(function() {
 	  	
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_sexo";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 		$i=1;
 	  ?>
         <select class='select-style gender' name="sexo" id="sexo">
         <option value="0">Seleccione</option>
          <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
           {?>
           	<option value=<?php print $row["id_sexo"]; if($row["id_sexo"]==$registro["id_sexo"]){?> selected="selected" <?php }?>><?php print $row["sexo"];?></option>
            <?php } ?>
@@ -232,13 +232,13 @@ $(document).ready(function() {
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_municipio";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name="municipio" id="municipio" onChange="cargaContenido(this.id)">
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_municipio"]; if($row["id_municipio"]==$registro["id_municipio"]){?> selected="selected" <?php }?>><?php print $row["municipio"];?></option>
            <?php } ?>
@@ -258,13 +258,13 @@ $(document).ready(function() {
          <?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_urbanizacion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='urbanizacion' id='urbanizacion' onChange='cargaContenido(this.id)'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_urbanizacion"]; if($row["id_urbanizacion"]==$registro["id_urbanizacion"]){?> selected="selected" <?php }?>><?php print $row["urbanizacion"];?></option>
            <?php } ?>
@@ -311,13 +311,13 @@ $(document).ready(function() {
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_ocupacion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='ocupacion' id='ocupacion'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_ocupacion"]; if($row["id_ocupacion"]==$registro["id_ocupacion"]){?> selected="selected" <?php }?>><?php print $row["ocupacion"];?></option>
            <?php } ?>
@@ -334,13 +334,13 @@ $(document).ready(function() {
 	<?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado_instruccion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='grado_instruccion' id='grado_instruccion'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_grado_instruccion"]; if($row["id_grado_instruccion"]==$registro["id_grado_instruccion"]){?> selected="selected" <?php }?>><?php print $row["grado_instruccion"];?></option>
            <?php } ?>
@@ -355,13 +355,13 @@ $(document).ready(function() {
 	<?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_institucion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='institucion' id='institucion'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_institucion"]; if($row["id_institucion"]==$registro["id_institucion"]){?> selected="selected" <?php }?>><?php print $row["institucion"];?></option>
            <?php } ?>
@@ -376,13 +376,13 @@ $(document).ready(function() {
     <?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='grado' id='grado'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row = $result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_grado"]; if($row["id_grado"]==$registro["id_grado"]){?> selected="selected" <?php }?>><?php print $row["grado"];?></option>
            <?php } ?>
@@ -404,8 +404,8 @@ $(document).ready(function() {
    $link=Conectarse(); 
   	$sqlr="SELECT * FROM t_representante
 			WHERE id_deportista=".$_GET['id_deportista'];
-	$resultador=mysql_query($sqlr);
-	$registror= mysql_fetch_array($resultador);
+	$resultador=$mysqli->query($sqlr);
+	$registror= $resultador->fetch_array();
 	desconectarse();
   ?>
   <tr>
@@ -426,13 +426,13 @@ $(document).ready(function() {
 	<?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_ocupacion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='ocupacion_repres' id='ocupacion_repres'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row=$result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_ocupacion"]; if($row["id_ocupacion"]==$registror["id_ocupacion"]){?> selected="selected" <?php }?>><?php print $row["ocupacion"];?></option>
            <?php } ?>
@@ -445,13 +445,13 @@ $(document).ready(function() {
 	<?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grado_instruccion";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='grado_instruccion_repres' id='grado_instruccion_repres'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row = $result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_grado_instruccion"]; if($row["id_grado_instruccion"]==$registror["id_grado_instruccion"]){?> selected="selected" <?php }?>><?php print $row["grado_instruccion"];?></option>
            <?php } ?>
@@ -473,13 +473,13 @@ $(document).ready(function() {
 	  <?php
 	    $link=Conectarse(); 
 	  	$sSQL="SELECT * FROM t_grupo_sanguineo";
-        $result=mysql_query($sSQL);
+        $result=$mysqli->query($sSQL);
 		desconectarse();
 	?>
         <select class='select-style gender' name='grupo_sanguineo' id='grupo_sanguineo'>
         <option value='0'>Seleccione</option>
    <?php //Generamos el menu desplegable
-          while ($row=mysql_fetch_array($result))
+          while ($row = $result->fetch_array())
 		  {?>
           	<option value=<?php print $row["id_grupo_sanguineo"]; if($row["id_grupo_sanguineo"]==$registro["id_grupo_sanguineo"]){?> selected="selected" <?php }?>><?php print $row["grupo_sanguineo"];?></option>
            <?php } ?>

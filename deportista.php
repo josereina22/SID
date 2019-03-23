@@ -76,7 +76,7 @@
 				print "INACTIVO";}
 	  ?></td>
           <td><?PHP echo $cedula?></td>
-          <td><?PHP echo $nombres," ",$apellidos?></td>
+          <td><?PHP echo utf8_encode($nombres)," ",utf8_encode($apellidos)?></td>
           <td><?PHP 
 	  	$consul_clases="SELECT * FROM t_inscrito, t_estatus_inscrito WHERE id_deportista='$id_deportista' AND id_estatus_inscrito=estatus ORDER BY estatus, fecha_inscripcion LIMIT 4";
 		$result_clases= $mysqli->query($consul_clases);
@@ -85,7 +85,7 @@
 				if ($campo['id_estatus_inscrito']==1)
 				{print "<label style='color:blue'>";}
 				else {print "<label style='color:red'>";}
-				print $x.") ".$campo["cod_clase"]." ".$campo["estatus_inscrito"]; 
+				print $x.") ".utf8_encode($campo["cod_clase"])." ".$campo["estatus_inscrito"];
 				print "</label>";
 				print "<BR>";
 				$x++;

@@ -1,36 +1,36 @@
-<?php 
-	session_start(); 
-	//header('Content-Type: text/html; charset=ISO-8859-1'); 
-  header('Content-Type: text/html; charset=utf-8');
-	$usuario=$_SESSION['usu'];
-	include ('configuration/conexion.php');
-  $mysqli=Conectarse(); 
+<?php
+session_start();
+//header('Content-Type: text/html; charset=ISO-8859-1');
+//header('Content-Type: text/html; charset=utf-8');
+$usuario=$_SESSION['usu'];
+include ('configuration/conexion.php');
+$mysqli=Conectarse();
 ?>
+
 <html>
-<head>
-<!--meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /-->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
-<link type="text/css" href="estilos/tablas_report.css" rel="stylesheet" />
-<link type="text/css" href="estilos/boton_report.css" rel="stylesheet" />
-<style type="text/css">
-@import url("jscalendar/calendar-system.css");.hjh {
-	font-size: larger;
-	z-index:100;
-}
-</style>
-<script type="text/javascript" src="jquery/jquery.js"></script>
-<script type="text/javascript" src="estilos/tablas_report.js"></script>
+    <head>
+        <!--meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title></title>
+        <link type="text/css" href="estilos/tablas_report.css" rel="stylesheet" />
+        <link type="text/css" href="estilos/boton_report.css" rel="stylesheet" />
+        <style type="text/css">
+            @import url("jscalendar/calendar-system.css");.hjh {
+                font-size: larger;
+                z-index:100;
+            }
+        </style>
+        <script type="text/javascript" src="jquery/jquery.js"></script>
+        <script type="text/javascript" src="estilos/tablas_report.js"></script>
 
 
-<!-- import the calendar script -->
-<script type="text/javascript" src="jscalendar/calendar.js"></script>
-<!-- import the language module -->
-<script type="text/javascript" src="jscalendar/lang/calendar-es.js"></script>
-<script type="text/javascript" src="jscalendar/calendar-setup.js" /></script>
-</head>
+        <!-- import the calendar script -->
+        <script type="text/javascript" src="jscalendar/calendar.js"></script>
+        <!-- import the language module -->
+        <script type="text/javascript" src="jscalendar/lang/calendar-es.js"></script>
+        <script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
+    </head>
 <body>
-
 <form name="form1" method="post" action="">
   <table width="900" border="1" cellpadding="3" align="center" id="table">
     <tr>
@@ -56,7 +56,7 @@
              
              while ($fila = $resultados->fetch_array()) {
          ?>
-          <option value=<?php print $fila['id_disciplina']?>><?php print $fila['disciplina']?></option>	
+          <option value=<?php print $fila['id_disciplina']?>><?php print utf8_encode($fila['disciplina'])?></option>
           <?php } //cierro el While?>
            </select>
          </div>
@@ -160,15 +160,15 @@
     }else{$bgcolor="";}
 ?>
   <tr >  	
-    <td <?php print $bgcolor?> ><?php print $fila["cod_clase"]?></td>
-    <td <?php print $bgcolor?> ><?php print $fila["nombres"]." ".$fila["apellidos"]?></td>
-    <td <?php print $bgcolor?> ><?php print $fila["disciplina"]?></td>
+    <td <?php print $bgcolor?> ><?php print utf8_encode($fila["cod_clase"])?></td>
+    <td <?php print $bgcolor?> ><?php print utf8_encode($fila["nombres"])." ".utf8_encode($fila["apellidos"])?></td>
+    <td <?php print $bgcolor?> ><?php print utf8_encode($fila["disciplina"])?></td>
     <td <?php print $bgcolor?> ><?php print $fila["edad_min"]."-".$fila["edad_max"]?></td>
     <td <?php print $bgcolor?>><?php if ($fila["sexo"]==1)print"Masculino"; elseif ($fila["sexo"]==2)print"Femenino"; elseif ($fila["sexo"]==3)print"Mixto";?></td>
     <td <?php print $bgcolor?> ><?php print $fila["semanas"]?></td>
     <td <?php print $bgcolor?> align="center"><?php print $fila["hora_inicio"]." a ".$fila["hora_fin"];?></td>
     <td <?php print $bgcolor?>><?php print $fila["instalacion"]?></td>
-    <td <?php print $bgcolor?>><?php print $fila["cancha"]?></td>
+    <td <?php print $bgcolor?>><?php print utf8_encode($fila["cancha"])?></td>
     <td <?php print $bgcolor?>><?php print $fila["capacidad"]?></td>
     <td <?php print $bgcolor?>><?php print $fila["inscrito"]?></td>
     <td <?php print $bgcolor?>><?php print $fila["disponible"]?></td>
@@ -185,7 +185,6 @@
 <?php
 //}
 ?>
-
 
 </body>
 </html>

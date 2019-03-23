@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>SID</title>
 	<link rel="shortcut icon" href="imagenes/icon.ico" type="image/ico" />
 	<style type="text/css">
@@ -13,7 +13,7 @@
 		}
 		#inferior{
 		color: #FFF;
-		position:absolute; /*El div será ubicado con relación a la pantalla*/
+		position:absolute; /*El div serÃ¡ ubicado con relaciÃ³n a la pantalla*/
 		left:0px; /*A la derecha deje un espacio de 0px*/
 		right:0px; /*A la izquierda deje un espacio de 0px*/
 		bottom:0px; /*Abajo deje un espacio de 0px*/
@@ -46,7 +46,7 @@
 	<div align="center"><img src="imagenes/chacao_TRANS.png"></div>
 	<div align="center">
 		<label style="font:28px Georgia, 'Times New Roman', Times, serif; color:#FFF">
-			Sistema Información de Deportes
+			Sistema Informaciï¿½n de Deportes
 		</label>
   	</div>
 	<div class="centrar">
@@ -125,7 +125,7 @@ if (!(empty ($_POST['usu'])))
 	{ 
 	  ?>
        <script type="text/javascript">
-	        alert("Usuario o Contraseña Incorrecta");
+	        alert("Usuario o ContraseÃ±a Incorrecta");
 			document.getElementById('usuario').focus();
 			//window.location="index.php";
 	   </script>

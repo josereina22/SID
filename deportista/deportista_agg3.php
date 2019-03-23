@@ -132,7 +132,7 @@ $id_deportista= $row["id_deportista"];
       <th><div align="right">Edad:</div></th>
       <td>
         <label><?php
-      setlocale(LC_TIME, 'es_VE'); # Localiza en español es_Venezuela
+      setlocale(LC_TIME, 'es_VE'); # Localiza en espaï¿½ol es_Venezuela
       date_default_timezone_set('America/Caracas');
       //date_default_timezone_set(); 
 		  $fecha_nacimiento=$row["fecha_nac"];
@@ -361,7 +361,7 @@ $id_deportista= $row["id_deportista"];
     <tr>
       <td>Posee seguro de HCM y/u otro</td>
       <td><label><?php if ($row['hcm']==1) {print 'SI';} elseif ($row['hcm']==2) {print 'NO';}?></label></td>
-      <td>¿Cual?</td>
+      <td>ï¿½Cual?</td>
       <td> <label><?php print $row["cual_hcm"];?></label></td>
     </tr>
     <tr>
@@ -497,7 +497,7 @@ if($result3->num_rows>0){
 			  if ($row3["sexo"]==$id_sexo or $row3["sexo"]==3)
 			   	{
 					?>
-          	<option value=<?php print $row3["id_disciplina"];?>><?php print $row3["disciplina"];?></option>
+          	<option value=<?php print $row3["id_disciplina"];?>><?php print utf8_encode($row3["disciplina"]);?></option>
            <?php }//cierro if de sexo
 		   	}//cierro while ?>
 	  </select>
@@ -559,8 +559,8 @@ if($result3->num_rows>0){
 </div> <!-- Clase From-->
 <?php
 	if (isset($_GET['mensaje']))
-		{if ($_GET['mensaje']==1){print "<script>alert('Ya el Atleta está Inscrito en la Clase y Está Activo')</script>";}
-		 if ($_GET['mensaje']==2){print "<script>alert('Máximo hasta Cuatro (4) Disciplinas Activa por atleta')</script>";}
+		{if ($_GET['mensaje']==1){print "<script>alert('Ya el Atleta estï¿½ Inscrito en la Clase y Estï¿½ Activo')</script>";}
+		 if ($_GET['mensaje']==2){print "<script>alert('Mï¿½ximo hasta Cuatro (4) Disciplinas Activa por atleta')</script>";}
 		}
 ?>
 </body>

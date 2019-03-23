@@ -8,7 +8,7 @@ date_default_timezone_set('UTC');
 $fecha_inscr= date("Y-m-d");
 print $fecha_inscr; print '<br>';
 include ("../configuration/conexion.php");
-$link=Conectarse();
+$mysqli=Conectarse();
 $mensaje=0;
 //*****************SI ENTRO POR EL LINK DE INSCRIBIR*****************************************************************/
 if (isset($_GET['id_deportista']))
@@ -21,33 +21,33 @@ if (isset($_GET['id_deportista']))
 	
 	//PARA PERMITIR MAXIMO DE CUATRO INSCRIPCIONES ACTIVAS
 	$sqli="SELECT * FROM t_inscrito WHERE id_deportista= '$id_deport' AND estatus=1";
-	$resultadoi=mysql_query($sqli);
-	$rowi= mysql_fetch_array($resultadoi);
-	if(mysql_num_rows($resultadoi)<4)
+	$resultadoi=$mysqli->query($sqli);
+	$rowi= $resultadoi->fetch_array();
+	if($resultadoi->num_rows < 4)
 	{
 		// PARA SABER SI YA EL ATLETA ESTA INSCRITO Y ACTIVO
 		$sql="SELECT * FROM t_inscrito WHERE id_deportista= '$id_deport' AND cod_clase='$cod_class' AND estatus=1";
-		$resultado=mysql_query($sql);
-		$row= mysql_fetch_array($resultado);
-		if(mysql_num_rows($resultado)==0)
+		$resultado = $mysqli->query($sql);
+		$row= $resultado->fetch_array();
+		if($resultado->num_rows == 0)
 		{
 			print "No Hay";
-			mysql_query("INSERT INTO t_inscrito Values('','$id_deport','$cod_class', '$fecha_inscr', '1', '')") or die("error en Incluir: ".mysql_error());
+			$mysqli->query("INSERT INTO t_inscrito Values('','$id_deport','$cod_class', '$fecha_inscr', '1', '')") or die("error en Incluir: ".mysql_error());
 			//para sumar inscrito y restar disponible 
-			mysql_query("UPDATE t_clase SET inscrito=(inscrito+1), disponible=(disponible-1)  WHERE cod_clase= '$cod_class'") or die("error en Actualizar: ".mysql_error());
+            $mysqli->query("UPDATE t_clase SET inscrito=(inscrito+1), disponible=(disponible-1)  WHERE cod_clase= '$cod_class'") or die("error en Actualizar: ".mysql_error());
 			//para activar el deportista
-			mysql_query("UPDATE t_deportista SET estatus =1 WHERE id_deportista= '$id_deport'") or die("error en Actualizar: ".mysql_error());
+            $mysqli->query("UPDATE t_deportista SET estatus =1 WHERE id_deportista= '$id_deport'") or die("error en Actualizar: ".mysql_error());
 			print 'INSCRITO';
 		}
 		else
 		{
 			print "Ya Este Atleta esta Inscrito en la Clase y Esta Activo";
-			$mensaje=1;
+			$mensaje = 1;
 		}
 	}//fin de maximo a cuatro
 	else{
 		print "Maximo hasta Cuatro Disciplina por atleta";
-		$mensaje=2;	
+		$mensaje = 2;
 	}
 		
 		
